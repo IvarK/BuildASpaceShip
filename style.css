@@ -1,0 +1,74 @@
+
+
+div {
+  font-family: Lucida Sans Unicode;
+}
+
+.button {
+  background: #E0E0E0;
+  font-weight: bold;
+  border: 2px solid #5C005C;
+  width: 200px;
+  height: 40px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition-duration: 0.35s;
+  margin: 4px;
+}
+
+.tooltip {
+  visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    top: -5px;
+    left: 110%;
+}
+
+.button:hover {
+  background: #41E881;
+  border-radius: 0px
+}
+
+
+.nbutton {
+  color: #D6D0D0;
+  background: #2B2B2B;
+  font-weight: bold;
+  border: 2px solid #5C005C;
+  width: 200px;
+  height: 40px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition-duration: 0.35s;
+  
+  margin: 4px;
+}
+
+.nbutton:hover {
+  background: #D11313;
+  border-radius: 0px
+}
+
+
+
+
+  #achievementBox {
+    background: #84C5DB;
+    color: black;
+    text-align: center;
+    margin: auto;
+    width: 200px;
+    height: 70px;
+    align: center;
+    line-height: 70px;
+    border-radius: 12px;
+    border: 2px solid black;
+    display: none;
+  }
+  
