@@ -23,6 +23,7 @@ var player = {
 	fourthAchievement: false,
 	fifthAchievement: false
 };
+var defaultplayer = player;
 var speed = player.baseSpeed * player.speedMultipliers;
 var lastUpdate = new Date().getTime();
 var meterLabel = document.getElementById("meters");
@@ -205,6 +206,11 @@ shipUpdateButton.onclick = function() {
   }
 };
 
+document.getElementById("hardReset").onclick = function() {
+  if(confirm("Are you sure you want to erase all your progress?")) player = defaultplayer
+};
+
+
 
 
 
@@ -306,4 +312,3 @@ setInterval(function() {
   
   lastUpdate = thisUpdate;
 }, 100);
-setInterval(function () { save_game(); }, 10000);
