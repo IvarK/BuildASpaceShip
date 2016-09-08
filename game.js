@@ -177,7 +177,7 @@ wingUpdateButton.onclick = function() {
   if (player.money >= player.wingUpdateCost && player.wingUpdateAmount < 5 && player.wings !== 0) {
     player.money -= player.wingUpdateCost;
     player.wingUpdateCost *= 2.5;
-    player.speedMultipliers *= 1.45;
+    player.speedMultipliers *= 1.4;
     player.wingUpdateAmount++;
     wingUpdateButton.innerHTML = shortenCosts(player.wingUpdateCost) + " € to update your wings";
     document.getElementById("wingUpdateAmount").innerHTML = player.wingUpdateAmount + "/5";
@@ -189,7 +189,7 @@ rocketUpdateButton.onclick = function() {
   if (player.money >= player.rocketUpdateCost && player.rocketUpdateAmount < 5 && player.rockets !== 0) {
     player.money -= player.rocketUpdateCost;
     player.rocketUpdateCost *= 6;
-    player.speedMultipliers *= 1.95;
+    player.speedMultipliers *= 1.8;
     player.rocketUpdateAmount++;
     rocketUpdateButton.innerHTML = shortenCosts(player.rocketUpdateCost) + " € to update your rockets";
     document.getElementById("rocketUpdateAmount").innerHTML = player.rocketUpdateAmount + "/5";
@@ -235,7 +235,7 @@ document.getElementById("hardReset").onclick = function() {
       fifthAchievement: false,
       onAir: false
     };
-    shipUpdateButton.innerHTML = shortenCosts(player.shipUpdateCost) + " € to update your ship";
+  	shipUpdateButton.innerHTML = shortenCosts(player.shipUpdateCost) + " € to update your ship";
     document.getElementById("shipUpdateAmount").innerHTML = "0/5";
     rocketUpdateButton.innerHTML = shortenCosts(player.rocketUpdateCost) + " € to update your rockets";
     document.getElementById("rocketUpdateAmount").innerHTML = "0/5";
@@ -258,7 +258,13 @@ launchButton.onclick = function() {
   }
 }
 
-
+function speedIndicators(howfast) {
+  if (howfast > 9.4605284e18) return shorten(howfast/9.4605284e18) + "light-milleniums/s"
+  else if (howfast > 9.4605284e15) return shorten(howfast/9.4605284e15) + "light-years/s"
+  else if (howfast > 149597871000) return shorten(howfast/149597871000) + "AU/s"
+  else if (howfast > 299792458) return shorten(howfast/299792458) + "c"
+  else return shorten(howfast) + "m/s"
+}
 
   
 
@@ -268,7 +274,7 @@ function achievement(name)
 {
   document.getElementById("achievementBox").innerHTML = name;
   $( "div:hidden:first" ).fadeIn( 4000 ).fadeOut(1500);
-  
+  player.funds *= 1.1
 
 }
 
@@ -280,7 +286,7 @@ setInterval(function() {
   var diff = thisUpdate - lastUpdate;
   diff = diff/100;
   meterLabel.innerHTML = "You have travelled " + shorten(player.distance) + " meters.";
-  speedLabel.innerHTML = shorten(speed) + "m/s";
+  speedLabel.innerHTML = speedIndicators(speed);
   moneyLabel.innerHTML = shorten(player.money) + " €";
   speed = player.baseSpeed * player.speedMultipliers;
   
@@ -322,32 +328,27 @@ setInterval(function() {
   if (player.distance > 10 && !player.firstAchievement) { 
     achievement("I can still see you");
     player.firstAchievement = true;
-    player.funds *= 1.1;
   }
   
    if (speed > 340.29 && !player.secondAchievement) { 
     achievement("I can still hear you");
     player.secondAchievement = true;
-    player.funds *= 1.1;
   }
   
      if (player.distance > 50000 && !player.thirdAchievement) { 
     achievement("You have reached the edge of the stratosphere.");
     player.thirdAchievement = true;
-    player.funds *= 1.1;
   }
   
      if (player.distance > 384400 && !player.fourthAchievement) { 
     achievement("Neil Armstrong all over again.");
     player.fourthAchievement = true;
-    player.funds *= 1.1;
   }
   
   
        if (speed > 299792458 && !player.fifthAchievement) { 
-    achievement("I can't see you anymore.");
+    achievement("You're going faster than light. You hacker.");
     player.fifthAchievement = true;
-    player.funds *= 1.3;
   }
   
   if (player.onAir) {
@@ -364,7 +365,6 @@ setInterval(function() {
   
   
   
-  
   lastUpdate = thisUpdate;
 }, 100);
 shipUpdateButton.innerHTML = shortenCosts(player.shipUpdateCost) + " € to update your ship";
@@ -378,3 +378,4 @@ wingButton.innerHTML = shortenCosts(player.wingCost) + " € for " + Wings[playe
 shipButton.innerHTML = shortenCosts(player.shipCost) + " € for " + Ships[player.ships] + ".";
 
 setInterval(function () { save_game(); }, 10000);
+
