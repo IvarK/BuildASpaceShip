@@ -357,7 +357,10 @@ setInterval(function() {
   
   
   if (player.onAir) launchButton.innerHTML = "Return to Earth."
-  else launchButton.innerHTML = "LAUNCH"
+  else {
+  	launchButton.innerHTML = "LAUNCH"
+  	player.distance = 0
+  }
   
   
   
