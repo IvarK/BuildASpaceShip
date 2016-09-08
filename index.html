@@ -6,10 +6,13 @@
   <title>Build A Spaceship!</title>
   <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
-<body>
+<body class="stars">
+
 <link rel="stylesheet" type="text/css" href="style.css">
+  <div style="height: 20%; background: transparent"></div>
+
      
-<div>
+<div class="container">
   
   <div id="meters" style="text-align:center" >You have travelled 0 meters.</div>
   <div id="speed" style="text-align:center" >0 m/s</div>
@@ -26,19 +29,22 @@
     <span id="shipUpdateAmount">0/5</span>
   </div>
   <div style="text-align:center">
-    <button class="button" id="wings">20 € for Paper wings.</button>
+    <button class="button" id="wings">25 € for Paper wings.</button>
     <button class="button" id="wingUpdate">40 € to update your wings</button>
     <span id="wingUpdateAmount">0/5</span>
+  </div>
+  <div style="text-align: center">
+    <button class="button" id="launch">LAUNCH</button>  
   </div>
     <p id="funds" style="text-align:center">
     You get 0.1 € per second for each meter travelled.
       </p>
     <div style="text-align:center"><button id="hardReset"class="button">HARD RESET</button></div>
-<div id="achievementBox">text</div>
-
+  </div>
+  <div id="achievementBox">text</div>
+  <div class="twinkling"></div>
 <script src="game.js"></script>
 </body>
 </html>
-  
   
   
