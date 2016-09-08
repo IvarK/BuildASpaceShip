@@ -270,6 +270,16 @@ function speedIndicators(howfast) {
 
 
 
+function distanceIndicators(howfar) {
+  if (howfar > 9.4605284e18) return shorten(howfar/9.4605284e18) + " light-milleniums."
+  else if (howfar > 9.4605284e15) return shorten(howfar/9.4605284e15) + " light-years."
+  else if (howfar > 149597871000) return shorten(howfar/149597871000) + " AUs."
+  else return shorten(howfar) + " meters."
+}
+  
+
+
+
 function achievement(name)
 {
   document.getElementById("achievementBox").innerHTML = name;
@@ -285,7 +295,7 @@ setInterval(function() {
   var thisUpdate = new Date().getTime();
   var diff = thisUpdate - lastUpdate;
   diff = diff/100;
-  meterLabel.innerHTML = "You have travelled " + shorten(player.distance) + " meters.";
+  meterLabel.innerHTML = "You have travelled " + distanceIndicators(player.distance);
   speedLabel.innerHTML = speedIndicators(speed);
   moneyLabel.innerHTML = shorten(player.money) + " €";
   speed = player.baseSpeed * player.speedMultipliers;
@@ -362,8 +372,8 @@ setInterval(function() {
   	launchButton.innerHTML = "LAUNCH"
   	player.distance = 0
   }
-    shipUpdateButton.setAttribute('data-tooltip', "Adds " + Math.round(0.1*(player.ships*player.shipUpdateAmount+1)*10)/10 + " to your base speed. Currently at " + Math.round(player.baseSpeed*10)/10)
   
+  shipUpdateButton.setAttribute('data-tooltip', "Adds " + Math.round(0.1*(player.ships*player.shipUpdateAmount+1)*10)/10 + " to your base speed. Currently at " + Math.round(player.baseSpeed*10)/10)
   
   lastUpdate = thisUpdate;
 }, 100);
