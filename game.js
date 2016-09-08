@@ -7,7 +7,7 @@ var player = {
 	funds: 0.1,
 	rocketCost: 10,
 	shipCost: 10,
-	wingCost: 20,
+	wingCost: 25,
 	rockets: 0,
 	ships: 0,
 	wings: 0,
@@ -304,12 +304,6 @@ setInterval(function() {
     player.funds *= 1.1;
   }
   
-       if (player.distance > 384400 && !player.fourthAchievement) { 
-    achievement("Neil Armstrong all over again.");
-    player.fourthAchievement = true;
-    player.funds *= 1.1;
-  }
-  
   
        if (speed > 299792458 && !player.fifthAchievement) { 
     achievement("I can't see you anymore.");
@@ -318,8 +312,8 @@ setInterval(function() {
   }
   
   
-  player.distance += speed/10;
-  player.money += player.distance*player.funds/10;
+  player.distance += speed*diff/10;
+  player.money += player.distance*player.funds*diff/10;
   
   lastUpdate = thisUpdate;
 }, 100);
