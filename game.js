@@ -1,38 +1,81 @@
-var distance = 0
-var baseSpeed = 0
-var speedMultipliers = 1
-var speed = baseSpeed * speedMultipliers
-var money = 20
-var funds = 0.1
-var rocketCost = 10
-var shipCost = 10
-var wingCost = 20
-var rockets = 0
-var ships = 0
-var wings = 0
-var rocketUpdateCost = 20
-var shipUpdateCost = 20
-var wingUpdateCost = 40
-var rocketUpdates = 0
-var shipUpdates = 0
-var wingUpdates = 0
+var player = {
 
-
+	distance: 0,
+	baseSpeed: 0,
+	speedMultipliers: 1,
+	money: 20,
+	funds: 0.1,
+	rocketCost: 10,
+	shipCost: 10,
+	wingCost: 20,
+	rockets: 0,
+	ships: 0,
+	wings: 0,
+	rocketUpdateCost: 20,
+	shipUpdateCost: 20,
+	wingUpdateCost: 40,
+	rocketUpdates: 0,
+	shipUpdates: 0,
+	wingUpdates: 0,
+	firstAchievement: false,
+	secondAchievement: false,
+	thirdAchievement:false,
+	fourthAchievement: false,
+	fifthAchievement: false
+};
+var speed = player.baseSpeed * player.speedMultipliers;
 var lastUpdate = new Date().getTime();
-var meterLabel = document.getElementById("meters")
-var rocketButton = document.getElementById("rockets")
-var shipButton = document.getElementById("ship")
-var wingButton = document.getElementById("wings")
-var speedLabel = document.getElementById("speed")
-var moneyLabel = document.getElementById("money")
-var rocketUpdateButton = document.getElementById("rocketUpdate")
-var shipUpdateButton = document.getElementById("shipUpdate")
-var wingUpdateButton = document.getElementById("wingUpdate")
+var meterLabel = document.getElementById("meters");
+var rocketButton = document.getElementById("rockets");
+var shipButton = document.getElementById("ship");
+var wingButton = document.getElementById("wings");
+var speedLabel = document.getElementById("speed");
+var moneyLabel = document.getElementById("money");
+var rocketUpdateButton = document.getElementById("rocketUpdate");
+var shipUpdateButton = document.getElementById("shipUpdate");
+var wingUpdateButton = document.getElementById("wingUpdate");
+
+function set_cookie(cookie_name,value) {
+    expiry = new Date();   
+    expiry.setTime(new Date().getTime() + (365*24*60*60*1000)); 
+    var c_value=escape(btoa(JSON.stringify(value))) + 
+    "; expires="+expiry.toUTCString();
+    document.cookie=cookie_name + "=" + c_value;
+}
+
+function get_cookie(cookie_name) {
+    var c_value = document.cookie;
+    var c_start = c_value.indexOf(" " + cookie_name + "=");
+    if (c_start == -1) {
+        c_start = c_value.indexOf(cookie_name + "=");
+    }
+    if (c_start == -1) return false;
+    c_start = c_value.indexOf("=", c_start) + 1;
+    var c_end = c_value.indexOf(";", c_start);
+    if (c_end == -1) {
+        c_end = c_value.length;
+    }
+    c_value = atob(unescape(c_value.substring(c_start,c_end)));
+    return JSON.parse(c_value);
+}
+
+function load_game() {
+    var save_data = get_cookie('save');
+       if (!save_data) return;
+  player = save_data;
+  }
 
 
-Rockets = ['Bottle', 'Canister', 'Gas tank', 'Firework', 'Gasoline', 'Diesel', 'Propane', 'Uranium', 'Antimatter']
-Ships = ['Cardboard box ship', 'Trash can ship', 'Sofa ship', 'Ikea shelf ship', 'Lada ship', 'Ford Escort ship', 'Audi ship', 'Delorean', 'Old Russian spacecraft', 'USS Discovery One', 'Battlestar Galactica BG-75', 'Prometheus', 'Serenity', 'Star Destroyer', 'USS Enterprise',  'Millenium Falcon']
-Wings = ['Paper', 'Cloth', 'Aluminium foil', 'Plastic', 'Wooden', 'Iron', 'Steel', 'Aluminium', 'Carbon fabric', 'Adamantium', 'Black Matter']
+function save_game() {
+    set_cookie('save', player);
+}
+
+
+
+
+Rockets = ['Bottle', 'Canister', 'Gas tank', 'Firework', 'Gasoline', 'Diesel', 'Propane', 'Uranium', 'Antimatter'];
+Ships = ['Cardboard box ship', 'Trash can ship', 'Sofa ship', 'Ikea shelf ship', 'Lada ship', 'Ford Escort ship', 'Audi ship', 'Delorean', 'Old Russian spacecraft', 'USS Discovery One', 'Battlestar Galactica BG-75', 'Prometheus', 'Serenity', 'Star Destroyer', 'USS Enterprise',  'Millenium Falcon'];
+Wings = ['Paper', 'Cloth', 'Aluminium foil', 'Plastic', 'Wooden', 'Iron', 'Steel', 'Aluminium', 'Carbon fabric', 'Adamantium', 'Black Matter'];
 MoneyFormat = ['K', 'M', 'B', 'T', 'Qd', 'Qt', 'Sx', 'Sp', 'Oc', 'No', 'Dc', 'UDc', 'DDc', 'TDc', 'QdDc', 'QtDc', 'SxDc', 'SpDc', 'ODc', 'NDc', 'Vg', 'UVg', 'DVg', 'TVg', 'QdVg', 'QtVg', 'SxVg', 'SpVg', 'OVg', 'NVg', 'Tg', 'UTg', 'DTg', 'TTg', 'QdTg', 'QtTg', 'SxTg', 'SpTg', 'OTg','NTg', 'Qa', 'UQa', 'DQa', 'TQa', 'QdQa', 'QtQa', 'SxQa', 'SpQa', 'OQa', 'NQa', 'Qi', 'UQi', 'DQi', 'TQi', 'QaQi', 'QtQi', 'SxQi', 'SpQi', 'OQi', 'NQi', 'Se', 'USe', 'DSe', 'TSe', 'QaSe', 'QtSe', 'SxSe', 'SpSe', 'OSe', 'NSe', 'St', 'USt', 'DSt', 'TSt', 'QaSt', 'QtSt', 'SxSt', 'SpSt', 'OSt', 'NSt', 'Og', 'UOg', 'DOg', 'TOg', 'QdOg', 'QtOg', 'SxOg', 'SpOg', 'OOg', 'NOg', 'Nn', 'UNn', 'DNn', 'TNn', 'QdNn', 'QtNn', 'SxNn', 'SpNn', 'ONn', 'NNn'];
 MoneyFormat.reverse();
 
@@ -68,202 +111,199 @@ shortenCosts = function(x) {
 
 
 rocketButton.onclick = function() {
-  if (rockets === 0 && money >= rocketCost) {
-    money -= rocketCost
-    rocketCost *= 10000
-    speedMultipliers *= 2
-    rockets++;
-    rocketButton.innerHTML = shortenCosts(rocketCost) + " € for " + Rockets[rockets] + " rocket."
-    rocketUpdateAmount = 0
+  if (player.rockets === 0 && player.money >= player.rocketCost) {
+    player.money -= player.rocketCost;
+    player.rocketCost *= 10000;
+    player.speedMultipliers *= 2;
+    player.rockets++;
+    rocketButton.innerHTML = shortenCosts(player.rocketCost) + " € for " + Rockets[player.rockets] + " rocket.";
+    player.rocketUpdateAmount = 0;
   }
-  if (money >= rocketCost && rocketUpdateAmount == 5) {
-    money -= rocketCost
-    rocketCost *= 10000
-    rockets++;
-    rocketButton.innerHTML = shortenCosts(rocketCost) + " € for " + Rockets[rockets] + " rocket."
-    rocketUpdateAmount = 0
-    document.getElementById("rocketUpdateAmount").innerHTML = rocketUpdateAmount + "/5"
+  if (player.money >= player.rocketCost && player.rocketUpdateAmount == 5) {
+    player.money -= player.rocketCost;
+    player.rocketCost *= 10000;
+    player.rockets++;
+    rocketButton.innerHTML = shortenCosts(player.rocketCost) + " € for " + Rockets[player.rockets] + " rocket.";
+    player.rocketUpdateAmount = 0;
+    document.getElementById("rocketUpdateAmount").innerHTML = player.rocketUpdateAmount + "/5";
   }
-}
+};
 
 
 shipButton.onclick = function() {
-  if (ships === 0 && money >= shipCost) {
-    money -= shipCost
-    shipCost *= 250
-    baseSpeed += 0.1
-    ships++;
-    shipButton.innerHTML = shortenCosts(shipCost) + " € for " + Ships[ships] + " ship."
-    shipUpdateAmount = 0
+  if (player.ships === 0 && player.money >= player.shipCost) {
+    player.money -= player.shipCost;
+    player.shipCost *= 250;
+    player.baseSpeed += 0.1;
+    player.ships++;
+    shipButton.innerHTML = shortenCosts(player.shipCost) + " € for " + Ships[player.ships] + " ship.";
+    player.shipUpdateAmount = 0;
   }
-  if (money >= shipCost  && shipUpdateAmount == 5) {
-    money -= shipCost
-    shipCost *= 250
-    ships++;
-    shipButton.innerHTML = shortenCosts(shipCost) + " € for " + Ships[ships] + "."
-    shipUpdateAmount = 0
-    document.getElementById("shipUpdateAmount").innerHTML = shipUpdateAmount + "/5"
+  if (player.money >= player.shipCost  && player.shipUpdateAmount == 5) {
+    player.money -= player.shipCost;
+    player.shipCost *= 250;
+    player.ships++;
+    shipButton.innerHTML = shortenCosts(player.shipCost) + " € for " + Ships[player.ships] + ".";
+    player.shipUpdateAmount = 0;
+    document.getElementById("shipUpdateAmount").innerHTML = player.shipUpdateAmount + "/5";
   }
-}
+};
 
 
 wingButton.onclick = function() {
-  if (wings === 0 && money >= wingCost) {
-    money -= wingCost
-    wingCost *= 125
-    speedMultipliers *= 1.5
-    wings++;
-    wingButton.innerHTML = shortenCosts(wingCost) + " € for " + Wings[wings] + " wings."
-    wingUpdateAmount = 0
+  if (player.wings === 0 && player.money >= player.wingCost) {
+    player.money -= player.wingCost;
+    player.wingCost *= 125;
+    player.speedMultipliers *= 1.5;
+    player.wings++;
+    wingButton.innerHTML = shortenCosts(player.wingCost) + " € for " + Wings[player.wings] + " wings.";
+    player.wingUpdateAmount = 0;
   }
-  if (money >= wingCost && wingUpdateAmount == 5) {
-    money -= wingCost
-    wingCost *= 125
-    wings++;
-    wingButton.innerHTML = shortenCosts(wingCost) + " € for " + Wings[wings] + " wings."
-    wingUpdateAmount = 0
-    document.getElementById("wingUpdateAmount").innerHTML = wingUpdateAmount + "/5"
+  if (player.money >= player.wingCost && player.wingUpdateAmount == 5) {
+    player.money -= player.wingCost;
+    player.wingCost *= 125;
+    player.wings++;
+    wingButton.innerHTML = shortenCosts(player.wingCost) + " € for " + Wings[player.wings] + " wings.";
+    player.wingUpdateAmount = 0;
+    document.getElementById("wingUpdateAmount").innerHTML = player.wingUpdateAmount + "/5";
   }
-}
+};
 
 
 wingUpdateButton.onclick = function() {
-  if (money >= wingUpdateCost && wingUpdateAmount < 5 && wings !== 0) {
-    money -= wingUpdateCost
-    wingUpdateCost *= 2.5;
-    speedMultipliers *= 1.3;
-    wingUpdateAmount++;
-    wingUpdateButton.innerHTML = shortenCosts(wingUpdateCost) + " € to update your wings"
-    document.getElementById("wingUpdateAmount").innerHTML = wingUpdateAmount + "/5"
+  if (player.money >= player.wingUpdateCost && player.wingUpdateAmount < 5 && player.wings !== 0) {
+    player.money -= player.wingUpdateCost;
+    player.wingUpdateCost *= 2.5;
+    player.speedMultipliers *= 1.3;
+    player.wingUpdateAmount++;
+    wingUpdateButton.innerHTML = shortenCosts(player.wingUpdateCost) + " € to update your wings";
+    document.getElementById("wingUpdateAmount").innerHTML = player.wingUpdateAmount + "/5";
   }
-}
+};
 
 
 rocketUpdateButton.onclick = function() {
-  if (money >= rocketUpdateCost && rocketUpdateAmount < 5 && rockets !== 0) {
-    money -= rocketUpdateCost
-    rocketUpdateCost *= 6;
-    speedMultipliers *= 1.8;
-    rocketUpdateAmount++;
-    rocketUpdateButton.innerHTML = shortenCosts(rocketUpdateCost) + " € to update your rockets"
-    document.getElementById("rocketUpdateAmount").innerHTML = rocketUpdateAmount + "/5"
+  if (player.money >= player.rocketUpdateCost && player.rocketUpdateAmount < 5 && player.rockets !== 0) {
+    player.money -= player.rocketUpdateCost;
+    player.rocketUpdateCost *= 6;
+    player.speedMultipliers *= 1.8;
+    player.rocketUpdateAmount++;
+    rocketUpdateButton.innerHTML = shortenCosts(player.rocketUpdateCost) + " € to update your rockets";
+    document.getElementById("rocketUpdateAmount").innerHTML = player.rocketUpdateAmount + "/5";
   }
-}
+};
 
 
 shipUpdateButton.onclick = function() {
-  if (money >= shipUpdateCost && shipUpdateAmount < 5 && ships !== 0) {
-    money -= shipUpdateCost
-    shipUpdateCost *= 3;
-    baseSpeed += 0.1*(ships*shipUpdateAmount+1)
-    shipUpdateAmount++;
-    shipUpdateButton.innerHTML = shortenCosts(shipUpdateCost) + " € to update your ship"
-    document.getElementById("shipUpdateAmount").innerHTML = shipUpdateAmount + "/5"
+  if (player.money >= player.shipUpdateCost && player.shipUpdateAmount < 5 && player.ships !== 0) {
+    player.money -= player.shipUpdateCost;
+    player.shipUpdateCost *= 3;
+    player.baseSpeed += 0.1*(player.ships*player.shipUpdateAmount+1);
+    player.shipUpdateAmount++;
+    shipUpdateButton.innerHTML = shortenCosts(player.shipUpdateCost) + " € to update your ship";
+    document.getElementById("shipUpdateAmount").innerHTML = player.shipUpdateAmount + "/5";
   }
-}
+};
 
 
 
 
 function achievement(name)
 {
-  document.getElementById("achievementBox").innerHTML = name
+  document.getElementById("achievementBox").innerHTML = name;
   $( "div:hidden:first" ).fadeIn( 4000 ).fadeOut(1500);
   
 
 }
 
 
-var firstAchievement = false
-var secondAchievement = false
-var thirdAchievement = false
-var fourthAchievement = false
-var fifthAchievement = false
+load_game();
 
 setInterval(function() {
   var thisUpdate = new Date().getTime();
   var diff = thisUpdate - lastUpdate;
   diff = diff/100;
-  meterLabel.innerHTML = "You have travelled " + shorten(distance) + " meters."
-  speedLabel.innerHTML = shorten(speed) + "m/s"
-  moneyLabel.innerHTML = shorten(money) + " €"
-  speed = baseSpeed * speedMultipliers
+  meterLabel.innerHTML = "You have travelled " + shorten(player.distance) + " meters.";
+  speedLabel.innerHTML = shorten(speed) + "m/s";
+  moneyLabel.innerHTML = shorten(player.money) + " €";
+  speed = player.baseSpeed * player.speedMultipliers;
   
-  if (money >= rocketCost) rocketButton.className = 'button'
-  else rocketButton.className = 'nbutton'
+  if (player.money >= player.rocketCost) rocketButton.className = 'button';
+  else rocketButton.className = 'nbutton';
   
-   if (money >= shipCost) shipButton.className = 'button'
-  else shipButton.className = 'nbutton'
+   if (player.money >= player.shipCost) shipButton.className = 'button';
+  else shipButton.className = 'nbutton';
   
-   if (wings === 0 || wingUpdateAmount == 5) {
-     if (money >= wingCost) wingButton.className = 'button'
-     else wingButton.className = 'nbutton'
-   } else wingButton.className = 'nbutton'
+   if (player.wings === 0 || player.wingUpdateAmount == 5) {
+     if (player.money >= player.wingCost) wingButton.className = 'button';
+     else wingButton.className = 'nbutton';
+   } else wingButton.className = 'nbutton';
    
    
-   if (rockets === 0 || rocketUpdateAmount == 5) {
-     if (money >= rocketCost) rocketButton.className = 'button'
-     else rocketButton.className = 'nbutton'
-   } else rocketButton.className = 'nbutton'
+   if (player.rockets === 0 || player.rocketUpdateAmount == 5) {
+     if (player.money >= player.rocketCost) rocketButton.className = 'button';
+     else rocketButton.className = 'nbutton';
+   } else rocketButton.className = 'nbutton';
    
    
-   if (ships === 0 || shipUpdateAmount == 5) {
-     if (money >= shipCost) shipButton.className = 'button'
-     else shipButton.className = 'nbutton'
-   } else shipButton.className = 'nbutton'
+   if (player.ships === 0 || player.shipUpdateAmount == 5) {
+     if (player.money >= player.shipCost) shipButton.className = 'button';
+     else shipButton.className = 'nbutton';
+   } else shipButton.className = 'nbutton';
   
   
-  if (money >= wingUpdateCost && wingUpdateAmount < 5 && wings !== 0) wingUpdateButton.className = 'button'
-  else wingUpdateButton.className = 'nbutton'
+  if (player.money >= player.wingUpdateCost && player.wingUpdateAmount < 5 && player.wings !== 0) wingUpdateButton.className = 'button';
+  else wingUpdateButton.className = 'nbutton';
   
-  if (money >= rocketUpdateCost && rocketUpdateAmount < 5 && rockets !== 0) rocketUpdateButton.className = 'button'
-  else rocketUpdateButton.className = 'nbutton'
+  if (player.money >= player.rocketUpdateCost && player.rocketUpdateAmount < 5 && player.rockets !== 0) rocketUpdateButton.className = 'button';
+  else rocketUpdateButton.className = 'nbutton';
   
-    if (money >= shipUpdateCost && shipUpdateAmount < 5 && ships !== 0) shipUpdateButton.className = 'button'
-  else shipUpdateButton.className = 'nbutton'
+    if (player.money >= player.shipUpdateCost && player.shipUpdateAmount < 5 && player.ships !== 0) shipUpdateButton.className = 'button';
+  else shipUpdateButton.className = 'nbutton';
   
-  document.getElementById("funds").innerHTML = "You get " + Math.round(funds*100)/100 + " € per second for each meter travelled."
+  document.getElementById("funds").innerHTML = "You get " + Math.round(player.funds*100)/100 + " € per second for each meter travelled.";
   
-  if (distance > 10 && !firstAchievement) { 
-    achievement("I can still see you")
-    firstAchievement = true
-    funds *= 1.1
+  if (player.distance > 10 && !player.firstAchievement) { 
+    achievement("I can still see you");
+    player.firstAchievement = true;
+    player.funds *= 1.1;
   }
   
-   if (speed > 340.29 && !secondAchievement) { 
-    achievement("I can still hear you")
-    secondAchievement = true
-    funds *= 1.1
+   if (speed > 340.29 && !player.secondAchievement) { 
+    achievement("I can still hear you");
+    player.secondAchievement = true;
+    player.funds *= 1.1;
   }
   
-     if (distance > 50000 && !thirdAchievement) { 
-    achievement("You have reached the edge of the stratosphere.")
-    thirdAchievement = true
-    funds *= 1.1
+     if (player.distance > 50000 && !player.thirdAchievement) { 
+    achievement("You have reached the edge of the stratosphere.");
+    player.thirdAchievement = true;
+    player.funds *= 1.1;
   }
   
-     if (distance > 384400 && !fourthAchievement) { 
-    achievement("Neil Armstrong all over again.")
-    fourthAchievement = true
-    funds *= 1.1
+     if (player.distance > 384400 && !player.fourthAchievement) { 
+    achievement("Neil Armstrong all over again.");
+    player.fourthAchievement = true;
+    player.funds *= 1.1;
   }
   
-       if (distance > 384400 && !fourthAchievement) { 
-    achievement("Neil Armstrong all over again.")
-    fourthAchievement = true
-    funds *= 1.1
-  }
-  
-  
-       if (speed > 299792458 && !fifthAchievement) { 
-    achievement("I can't see you anymore.")
-    fifthAchievement = true
-    funds *= 1.3
+       if (player.distance > 384400 && !player.fourthAchievement) { 
+    achievement("Neil Armstrong all over again.");
+    player.fourthAchievement = true;
+    player.funds *= 1.1;
   }
   
   
-  distance += speed/10
-  money += distance*funds/10
+       if (speed > 299792458 && !player.fifthAchievement) { 
+    achievement("I can't see you anymore.");
+    player.fifthAchievement = true;
+    player.funds *= 1.3;
+  }
+  
+  
+  player.distance += speed/10;
+  player.money += player.distance*player.funds/10;
   
   lastUpdate = thisUpdate;
 }, 100);
+setInterval(function () { save_game(); }, 10000);
