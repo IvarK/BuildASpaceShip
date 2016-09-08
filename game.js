@@ -259,11 +259,11 @@ launchButton.onclick = function() {
 }
 
 function speedIndicators(howfast) {
-  if (howfast > 9.4605284e18) return shorten(howfast/9.4605284e18) + "light-milleniums/s"
-  else if (howfast > 9.4605284e15) return shorten(howfast/9.4605284e15) + "light-years/s"
-  else if (howfast > 149597871000) return shorten(howfast/149597871000) + "AU/s"
+  if (howfast > 9.4605284e18) return shorten(howfast/9.4605284e18) + " light-milleniums/s"
+  else if (howfast > 9.4605284e15) return shorten(howfast/9.4605284e15) + " light-years/s"
+  else if (howfast > 149597871000) return shorten(howfast/149597871000) + " AU/s"
   else if (howfast > 299792458) return shorten(howfast/299792458) + "c"
-  else return shorten(howfast) + "m/s"
+  else return shorten(howfast) + " m/s"
 }
 
   
