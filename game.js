@@ -235,7 +235,7 @@ document.getElementById("hardReset").onclick = function() {
       fifthAchievement: false,
       onAir: false
     };
-  	shipUpdateButton.innerHTML = shortenCosts(player.shipUpdateCost) + " € to update your ship";
+    shipUpdateButton.innerHTML = shortenCosts(player.shipUpdateCost) + " € to update your ship";
     document.getElementById("shipUpdateAmount").innerHTML = "0/5";
     rocketUpdateButton.innerHTML = shortenCosts(player.rocketUpdateCost) + " € to update your rockets";
     document.getElementById("rocketUpdateAmount").innerHTML = "0/5";
@@ -367,6 +367,14 @@ setInterval(function() {
   
   lastUpdate = thisUpdate;
 }, 100);
-
+shipUpdateButton.innerHTML = shortenCosts(player.shipUpdateCost) + " € to update your ship";
+document.getElementById("shipUpdateAmount").innerHTML = "0/5";
+rocketUpdateButton.innerHTML = shortenCosts(player.rocketUpdateCost) + " € to update your rockets";
+document.getElementById("rocketUpdateAmount").innerHTML = "0/5";
+wingUpdateButton.innerHTML = shortenCosts(player.wingUpdateCost) + " € to update your wings";
+document.getElementById("wingUpdateAmount").innerHTML = "0/5";
+rocketButton.innerHTML = shortenCosts(player.rocketCost) + " € for " + Rockets[player.rockets] + " rocket.";
+wingButton.innerHTML = shortenCosts(player.wingCost) + " € for " + Wings[player.wings] + " wings.";
+shipButton.innerHTML = shortenCosts(player.shipCost) + " € for " + Ships[player.ships] + ".";
 
 setInterval(function () { save_game(); }, 10000);
