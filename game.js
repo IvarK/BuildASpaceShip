@@ -21,7 +21,8 @@ var player = {
 	secondAchievement: false,
 	thirdAchievement:false,
 	fourthAchievement: false,
-	fifthAchievement: false
+	fifthAchievement: false,
+    onAir: false
 };
 var defaultplayer = player;
 var speed = player.baseSpeed * player.speedMultipliers;
@@ -35,6 +36,7 @@ var moneyLabel = document.getElementById("money");
 var rocketUpdateButton = document.getElementById("rocketUpdate");
 var shipUpdateButton = document.getElementById("shipUpdate");
 var wingUpdateButton = document.getElementById("wingUpdate");
+var launchButton = document.getElementById("launch")
 
 function set_cookie(cookie_name,value) {
     expiry = new Date();   
@@ -112,7 +114,7 @@ shortenCosts = function(x) {
 
 
 rocketButton.onclick = function() {
-  if (player.rockets === 0 && player.money >= player.rocketCost) {
+  if (player.rockets === 0 && player.money >= player.rocketCost && !player.onAir) {
     player.money -= player.rocketCost;
     player.rocketCost *= 10000;
     player.speedMultipliers *= 2;
@@ -120,7 +122,7 @@ rocketButton.onclick = function() {
     rocketButton.innerHTML = shortenCosts(player.rocketCost) + " € for " + Rockets[player.rockets] + " rocket.";
     player.rocketUpdateAmount = 0;
   }
-  if (player.money >= player.rocketCost && player.rocketUpdateAmount == 5) {
+  if (player.money >= player.rocketCost && player.rocketUpdateAmount == 5 && !player.onAir) {
     player.money -= player.rocketCost;
     player.rocketCost *= 10000;
     player.rockets++;
@@ -132,15 +134,15 @@ rocketButton.onclick = function() {
 
 
 shipButton.onclick = function() {
-  if (player.ships === 0 && player.money >= player.shipCost) {
+  if (player.ships === 0 && player.money >= player.shipCost && !player.onAir) {
     player.money -= player.shipCost;
     player.shipCost *= 250;
     player.baseSpeed += 0.1;
     player.ships++;
-    shipButton.innerHTML = shortenCosts(player.shipCost) + " € for " + Ships[player.ships] + " ship.";
+    shipButton.innerHTML = shortenCosts(player.shipCost) + " € for " + Ships[player.ships] + ".";
     player.shipUpdateAmount = 0;
   }
-  if (player.money >= player.shipCost  && player.shipUpdateAmount == 5) {
+  if (player.money >= player.shipCost  && player.shipUpdateAmount == 5 && !player.onAir) {
     player.money -= player.shipCost;
     player.shipCost *= 250;
     player.ships++;
@@ -152,7 +154,7 @@ shipButton.onclick = function() {
 
 
 wingButton.onclick = function() {
-  if (player.wings === 0 && player.money >= player.wingCost) {
+  if (player.wings === 0 && player.money >= player.wingCost && !player.onAir) {
     player.money -= player.wingCost;
     player.wingCost *= 125;
     player.speedMultipliers *= 1.5;
@@ -160,7 +162,7 @@ wingButton.onclick = function() {
     wingButton.innerHTML = shortenCosts(player.wingCost) + " € for " + Wings[player.wings] + " wings.";
     player.wingUpdateAmount = 0;
   }
-  if (player.money >= player.wingCost && player.wingUpdateAmount == 5) {
+  if (player.money >= player.wingCost && player.wingUpdateAmount == 5 && !player.onAir) {
     player.money -= player.wingCost;
     player.wingCost *= 125;
     player.wings++;
@@ -175,7 +177,7 @@ wingUpdateButton.onclick = function() {
   if (player.money >= player.wingUpdateCost && player.wingUpdateAmount < 5 && player.wings !== 0) {
     player.money -= player.wingUpdateCost;
     player.wingUpdateCost *= 2.5;
-    player.speedMultipliers *= 1.3;
+    player.speedMultipliers *= 1.45;
     player.wingUpdateAmount++;
     wingUpdateButton.innerHTML = shortenCosts(player.wingUpdateCost) + " € to update your wings";
     document.getElementById("wingUpdateAmount").innerHTML = player.wingUpdateAmount + "/5";
@@ -187,7 +189,7 @@ rocketUpdateButton.onclick = function() {
   if (player.money >= player.rocketUpdateCost && player.rocketUpdateAmount < 5 && player.rockets !== 0) {
     player.money -= player.rocketUpdateCost;
     player.rocketUpdateCost *= 6;
-    player.speedMultipliers *= 1.8;
+    player.speedMultipliers *= 1.95;
     player.rocketUpdateAmount++;
     rocketUpdateButton.innerHTML = shortenCosts(player.rocketUpdateCost) + " € to update your rockets";
     document.getElementById("rocketUpdateAmount").innerHTML = player.rocketUpdateAmount + "/5";
@@ -208,20 +210,57 @@ shipUpdateButton.onclick = function() {
 
 document.getElementById("hardReset").onclick = function() {
   if(confirm("Are you sure you want to erase all your progress?")) {
-  	player = defaultplayer
+  	player = {
+      distance: 0,
+      baseSpeed: 0,
+      speedMultipliers: 1,
+      money: 20,
+      funds: 0.1,
+      rocketCost: 10,
+      shipCost: 10,
+      wingCost: 25,
+      rockets: 0,
+      ships: 0,
+      wings: 0,
+      rocketUpdateCost: 20,
+      shipUpdateCost: 20,
+      wingUpdateCost: 40,
+      rocketUpdates: 0,
+      shipUpdates: 0,
+      wingUpdates: 0,
+      firstAchievement: false,
+      secondAchievement: false,
+      thirdAchievement:false,
+      fourthAchievement: false,
+      fifthAchievement: false,
+      onAir: false
+    };
   	shipUpdateButton.innerHTML = shortenCosts(player.shipUpdateCost) + " € to update your ship";
-    	document.getElementById("shipUpdateAmount").innerHTML = "0/5";
-    	rocketUpdateButton.innerHTML = shortenCosts(player.rocketUpdateCost) + " € to update your rockets";
-    	document.getElementById("rocketUpdateAmount").innerHTML = "0/5";
-    	wingUpdateButton.innerHTML = shortenCosts(player.wingUpdateCost) + " € to update your wings";
-    	document.getElementById("wingUpdateAmount").innerHTML = "0/5";
-    	rocketButton.innerHTML = shortenCosts(player.rocketCost) + " € for " + Rockets[player.rockets] + " rocket.";
-    	wingButton.innerHTML = shortenCosts(player.wingCost) + " € for " + Wings[player.wings] + " wings.";
-    	shipButton.innerHTML = shortenCosts(player.shipCost) + " € for " + Ships[player.ships] + ".";
+    document.getElementById("shipUpdateAmount").innerHTML = "0/5";
+    rocketUpdateButton.innerHTML = shortenCosts(player.rocketUpdateCost) + " € to update your rockets";
+    document.getElementById("rocketUpdateAmount").innerHTML = "0/5";
+    wingUpdateButton.innerHTML = shortenCosts(player.wingUpdateCost) + " € to update your wings";
+    document.getElementById("wingUpdateAmount").innerHTML = "0/5";
+    rocketButton.innerHTML = shortenCosts(player.rocketCost) + " € for " + Rockets[player.rockets] + " rocket.";
+    wingButton.innerHTML = shortenCosts(player.wingCost) + " € for " + Wings[player.wings] + " wings.";
+    shipButton.innerHTML = shortenCosts(player.shipCost) + " € for " + Ships[player.ships] + ".";
   }
 };
 
 
+launchButton.onclick = function() {
+  if (player.onAir) {
+    player.onAir = false
+    player.distance = 0
+  }
+  else {
+    player.onAir = true
+  }
+}
+
+
+
+  
 
 
 
@@ -252,19 +291,19 @@ setInterval(function() {
   else shipButton.className = 'nbutton';
   
    if (player.wings === 0 || player.wingUpdateAmount == 5) {
-     if (player.money >= player.wingCost) wingButton.className = 'button';
+     if (player.money >= player.wingCost && !player.onAir) wingButton.className = 'button';
      else wingButton.className = 'nbutton';
    } else wingButton.className = 'nbutton';
    
    
    if (player.rockets === 0 || player.rocketUpdateAmount == 5) {
-     if (player.money >= player.rocketCost) rocketButton.className = 'button';
+     if (player.money >= player.rocketCost && !player.onAir) rocketButton.className = 'button';
      else rocketButton.className = 'nbutton';
    } else rocketButton.className = 'nbutton';
    
    
    if (player.ships === 0 || player.shipUpdateAmount == 5) {
-     if (player.money >= player.shipCost) shipButton.className = 'button';
+     if (player.money >= player.shipCost && !player.onAir) shipButton.className = 'button';
      else shipButton.className = 'nbutton';
    } else shipButton.className = 'nbutton';
   
@@ -311,9 +350,20 @@ setInterval(function() {
     player.funds *= 1.3;
   }
   
+  if (player.onAir) {
+    player.distance += speed*diff/10;
+    player.money += player.distance*player.funds*diff/10;
+  }
   
-  player.distance += speed*diff/10;
-  player.money += player.distance*player.funds*diff/10;
+  
+  if (player.onAir) launchButton.innerHTML = "Return to Earth."
+  else launchButton.innerHTML = "LAUNCH"
+  
+  
+  
   
   lastUpdate = thisUpdate;
 }, 100);
+
+
+setInterval(function () { save_game(); }, 10000);
