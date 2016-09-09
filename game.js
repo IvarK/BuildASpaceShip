@@ -341,7 +341,7 @@ function distanceIndicators(howfar) {
 function updateStatistics() {
   document.getElementById("baseSpeed").innerHTML = "Your base speed is " + Math.round(player.baseSpeed*10)/10
   document.getElementById("statRockets").innerHTML = "You have bought " + player.rockets + " rockets."
-  document.getElementById("statWings").innerHTML = "You have bought " + player.wings + " wings."
+  document.getElementById("statWings").innerHTML = "You have bought " + player.wings + " pair of wings."
   document.getElementById("statShips").innerHTML = "You have bought " + player.ships + " ships."
 }
 
