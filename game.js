@@ -17,11 +17,16 @@ var player = {
 	rocketUpdates: 0,
 	shipUpdates: 0,
 	wingUpdates: 0,
+    totalMoney: 0,
+    totalDistance: 0,
 	firstAchievement: false,
 	secondAchievement: false,
 	thirdAchievement:false,
 	fourthAchievement: false,
 	fifthAchievement: false,
+    sixthAchievement: false,
+    seventhAchievement: false,
+    eightAchievement: false,
     onAir: false
 };
 var defaultplayer = player;
@@ -130,6 +135,7 @@ rocketButton.onclick = function() {
     player.rocketUpdates = 0;
     document.getElementById("rocketUpdateAmount").innerHTML = player.rocketUpdates + "/5";
   }
+  updateStatistics()
 };
 
 
@@ -150,6 +156,7 @@ shipButton.onclick = function() {
     player.shipUpdates = 0;
     document.getElementById("shipUpdateAmount").innerHTML = player.shipUpdates + "/5";
   }
+  updateStatistics()
 };
 
 
@@ -170,6 +177,7 @@ wingButton.onclick = function() {
     player.wingUpdates = 0;
     document.getElementById("wingUpdateAmount").innerHTML = player.wingUpdates + "/5";
   }
+  updateStatistics()
 };
 
 
@@ -181,6 +189,7 @@ wingUpdateButton.onclick = function() {
     player.wingUpdates++;
     wingUpdateButton.innerHTML = shortenCosts(player.wingUpdateCost) + " € to update your wings";
     document.getElementById("wingUpdateAmount").innerHTML = player.wingUpdates + "/5";
+  updateStatistics()
   }
 };
 
@@ -228,11 +237,16 @@ document.getElementById("hardReset").onclick = function() {
       rocketUpdates: 0,
       shipUpdates: 0,
       wingUpdates: 0,
+      totalMoney: 0,
+      totalDistance: 0,
       firstAchievement: false,
       secondAchievement: false,
       thirdAchievement:false,
       fourthAchievement: false,
       fifthAchievement: false,
+      sixthAchievement: false,
+      seventhAchievement: false,
+      eightAchievement: false,
       onAir: false
     };
   	shipUpdateButton.innerHTML = shortenCosts(player.shipUpdateCost) + " € to update your ship";
@@ -244,6 +258,8 @@ document.getElementById("hardReset").onclick = function() {
     rocketButton.innerHTML = shortenCosts(player.rocketCost) + " € for " + Rockets[player.rockets] + " rocket.";
     wingButton.innerHTML = shortenCosts(player.wingCost) + " € for " + Wings[player.wings] + " wings.";
     shipButton.innerHTML = shortenCosts(player.shipCost) + " € for " + Ships[player.ships] + ".";
+    updateAchievements();
+    updateStatistics();
   }
 };
 
@@ -258,6 +274,52 @@ launchButton.onclick = function() {
   }
 }
 
+
+
+
+function updateAchievements() {
+  if (player.firstAchievement) document.getElementById("firstAchievement").style.display = 'block'
+  if (player.secondAchievement) document.getElementById("secondAchievement").style.display = 'block'
+  if (player.thirdAchievement) document.getElementById("thirdAchievement").style.display = 'block'
+  if (player.fourthAchievement) document.getElementById("fourthAchievement").style.display = 'block'
+  if (player.fifthAchievement) document.getElementById("fifthAchievement").style.display = 'block'
+  if (player.sixthAchievement) document.getElementById("sixthAchievement").style.display = 'block'
+  if (player.seventhAchievement) document.getElementById("seventhAchievement").style.display = 'block'
+  if (player.eightAchievement) document.getElementById("eightAchievement").style.display = 'block'
+}
+
+function showTab(tabName) {
+    console.log('show tab ' + tabName);
+    
+    //iterate over all elements in div_tab class. Hide everything that's not tabName and show tabName
+    var tabs = document.getElementsByClassName('tab');
+    var tab;
+    for (var i = 0; i < tabs.length; i++) {
+        tab = tabs.item(i);
+        if (tab.id === tabName) {
+            tab.style.display = 'block';
+        } else {
+            tab.style.display = 'none';
+        }
+    }
+  updateAchievements();
+  updateStatistics();
+}
+
+function init() {
+    console.log('init');
+    
+    //setup the onclick callbacks for the buttons
+    document.getElementById('yourship').onclick=function () {showTab('game');};
+    document.getElementById('statbutton').onclick=function () {showTab('statistics');};
+    document.getElementById('achievementbutton').onclick=function () {showTab('achievements');};
+    
+    //show one tab during init or they'll all start hidden
+    showTab('game');
+}
+
+
+
 function speedIndicators(howfast) {
   if (howfast > 9.4605284e18) return shorten(howfast/9.4605284e18) + " light-milleniums/s"
   else if (howfast > 9.4605284e15) return shorten(howfast/9.4605284e15) + " light-years/s"
@@ -266,7 +328,6 @@ function speedIndicators(howfast) {
   else return shorten(howfast) + " m/s"
 }
 
-  
 
 
 
@@ -277,15 +338,21 @@ function distanceIndicators(howfar) {
   else return shorten(howfar) + " meters."
 }
   
-
+function updateStatistics() {
+  document.getElementById("baseSpeed").innerHTML = "Your base speed is " + Math.round(player.baseSpeed*10)/10
+  document.getElementById("statRockets").innerHTML = "You have bought " + player.rockets + " rockets."
+  document.getElementById("statWings").innerHTML = "You have bought " + player.wings + " wings."
+  document.getElementById("statShips").innerHTML = "You have bought " + player.ships + " ships."
+}
 
 
 function achievement(name)
 {
   document.getElementById("achievementBox").innerHTML = name;
-  $( "div:hidden:first" ).fadeIn( 4000 ).fadeOut(1500);
+  $( '#achievementBox' ).fadeIn( 4000 ).fadeOut(1500);
   player.funds *= 1.1
-
+  updateAchievements();
+  document.getElementById("fundStats").innerHTML = "You get " + Math.round(player.funds*10)/10 + " per second for each meter travelled. This is increased by achivements"
 }
 
 
@@ -333,9 +400,9 @@ setInterval(function() {
     if (player.money >= player.shipUpdateCost && player.shipUpdates < 5 && player.ships !== 0) shipUpdateButton.className = 'button';
   else shipUpdateButton.className = 'nbutton';
   
-  document.getElementById("funds").innerHTML = "You get " + Math.round(player.funds*100)/100 + " € per second for each meter travelled.";
+  document.getElementById("funds").innerHTML = shorten(player.distance*player.funds) + " €/s";
   
-  if (player.distance > 10 && !player.firstAchievement) { 
+  if (player.distance > 0.1 && !player.firstAchievement) { 
     achievement("I can still see you");
     player.firstAchievement = true;
   }
@@ -361,9 +428,27 @@ setInterval(function() {
     player.fifthAchievement = true;
   }
   
+     if (player.distance > 149597871000 && !player.sixthAchievement) { 
+    achievement("Don't go too close to the sun.");
+    player.sixthAchievement = true;
+  }
+  
+     if (player.distance > 9.4605284e15 && !player.seventhAchievement) { 
+    achievement("Wow! You have travelled a light-year!");
+    player.seventhAchievement = true;
+  }
+  
+     if (player.distance > 9.4605284e18 && !player.eightAchievement) { 
+    achievement("Millenium? That's like a thousand years!");
+    player.eightAchievement = true;
+  }
+  
+  
   if (player.onAir) {
     player.distance += speed*diff/10;
     player.money += player.distance*player.funds*diff/10;
+    player.totalDistance += speed*diff/10;
+    player.totalMoney += player.distance*player.funds*diff/10;
   }
   
   
@@ -372,10 +457,18 @@ setInterval(function() {
   	launchButton.innerHTML = "LAUNCH"
   	player.distance = 0
   }
+  document.getElementById("fundStats").innerHTML = "You get " + Math.round(player.funds*100)/100 + " € per second for each meter travelled. This is increased by achivements"
+  document.getElementById("totalMoney").innerHTML = "You have made a total of " + shorten(player.totalMoney) + " €"
+  document.getElementById("totalDistance").innerHTML = "You have travelled a total of " + distanceIndicators(player.totalDistance)
+  
   shipUpdateButton.setAttribute('data-tooltip', "Adds " + Math.round(0.1*(player.ships*player.shipUpdates+1)*10)/10 + " to your base speed. Currently at " + Math.round(player.baseSpeed*10)/10)
   
   lastUpdate = thisUpdate;
 }, 100);
+
+
+
+
 shipUpdateButton.innerHTML = shortenCosts(player.shipUpdateCost) + " € to update your ship";
 document.getElementById("shipUpdateAmount").innerHTML = player.shipUpdates + "/5";
 rocketUpdateButton.innerHTML = shortenCosts(player.rocketUpdateCost) + " € to update your rockets";
@@ -387,3 +480,6 @@ wingButton.innerHTML = shortenCosts(player.wingCost) + " € for " + Wings[playe
 shipButton.innerHTML = shortenCosts(player.shipCost) + " € for " + Ships[player.ships] + ".";
 
 setInterval(function () { save_game(); }, 10000);
+init();
+updateStatistics();
+updateAchievements();
