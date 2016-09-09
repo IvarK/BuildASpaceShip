@@ -417,7 +417,7 @@ setInterval(function() {
     player.thirdAchievement = true;
   }
   
-     if (player.distance > 384400 && !player.fourthAchievement) { 
+     if (player.distance > 384400000 && !player.fourthAchievement) { 
     achievement("Neil Armstrong all over again.");
     player.fourthAchievement = true;
   }
