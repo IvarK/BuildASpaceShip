@@ -11,11 +11,22 @@
 <link rel="stylesheet" type="text/css" href="style.css">
   <div style="height: 20%; background: transparent"></div>
 
-     
-<div class="container">
   
+  <div class="tabswitcher">
+    <button class="tabbutton" id="yourship">Your ship</button>
+    <button class="tabbutton" id="statbutton">Statistics</button>
+    <button class="tabbutton" id="achievementbutton">Achievements</button>
+    
+  </div>
+  
+  
+     
+<div id="game" class="tab" style="display: block">
   <div id="meters" style="text-align:center" >You have travelled 0 meters.</div>
   <div id="speed" style="text-align:center" >0 m/s</div>
+  <p id="funds" style="text-align:center" ach-tooltip="You get money for each meter you have travelled per second.">
+    You get 0.1 € per second for each meter travelled.
+      </p>
   <p>
   <div id="money" style="font-family:Tahoma;font-size:40px;text-align:center">0 €</div>
   <div style="text-align:center">
@@ -36,11 +47,33 @@
   <div style="text-align: center">
     <button data-tooltip="You can only buy new parts while on earth."class="button" id="launch">LAUNCH</button>  
   </div>
-    <p id="funds" style="text-align:center">
-    You get 0.1 € per second for each meter travelled.
-      </p>
+  </div>
+  
+  <div id="achievements" class="tab">
+    <div class="achievement" id="firstAchievement" ach-tooltip="Travel 10 meters.">I can still see you</div>
+    <div class="achievement" id="secondAchievement" ach-tooltip="Travel at the speed of sound.">I can still hear you</div>
+    <div class="achievement" id="thirdAchievement" ach-tooltip="Travel 50 kilometers.">You have reached the edge of the stratosphere.</div>
+    <div class="achievement" id="fourthAchievement" ach-tooltip="Travel to the moon.">Neil Armstrong all over again.</div>
+    <div class="achievement" id="fifthAchievement" ach-tooltip="Travel at the speed of light.">You're going faster than light. You hacker.</div>
+    <div class="achievement" id="sixthAchievement" ach-tooltip="Travel 1 astronomical unit.">Don't go too close to the sun.</div>
+    <div class="achievement" id="seventhAchievement" ach-tooltip="Travel a light-year. Duh.">Wow! You have travelled a light-year!</div>
+    <div class="achievement" id="eightAchievement" ach-tooltip="Travel a light-millenium.">Millenium? That's like a thousand years!</div>
+    
+  </div>
+  
+  <div id="statistics" class="tab">
+    <div id="baseSpeed"></div>
+    <div id="statRockets"></div>
+    <div id="statShips"></div>
+    <div id="statWings"></div>
+    <div id="totalMoney"></div>
+    <div id="totalDistance"></div>
+    <br>
+    <div id="fundStats"></div>
     <div style="text-align:center"><button id="hardReset"class="button">HARD RESET</button></div>
   </div>
+  
+  
   <div id="achievementBox">text</div>
   <div class="twinkling"></div>
 <script src="game.js"></script>
