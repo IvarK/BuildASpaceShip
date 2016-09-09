@@ -402,7 +402,7 @@ setInterval(function() {
   
   document.getElementById("funds").innerHTML = shorten(player.distance*player.funds) + " €/s";
   
-  if (player.distance > 0.1 && !player.firstAchievement) { 
+  if (player.distance > 10 && !player.firstAchievement) { 
     achievement("I can still see you");
     player.firstAchievement = true;
   }
