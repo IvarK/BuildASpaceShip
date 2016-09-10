@@ -19,6 +19,8 @@ var player = {
 	wingUpdates: 0,
     totalMoney: 0,
     totalDistance: 0,
+    prestigeAmount: 0,
+    nextPlanet: 500000000,
 	firstAchievement: false,
 	secondAchievement: false,
 	thirdAchievement:false,
@@ -239,6 +241,8 @@ document.getElementById("hardReset").onclick = function() {
       wingUpdates: 0,
       totalMoney: 0,
       totalDistance: 0,
+      prestigeAmount: 0,
+      nextPlanet: 500000000,
       firstAchievement: false,
       secondAchievement: false,
       thirdAchievement:false,
@@ -275,6 +279,50 @@ launchButton.onclick = function() {
 }
 
 
+function getPrestige() {
+  return Math.round(Math.sqrt(player.totalMoney/1e9)*75)
+}
+
+document.getElementById("resetButton").onclick = function() {
+  if (confirm("Do you want to make a colony to the exoplanet you found? You will get " + getPrestige() + " refugees that boost your funding by 2% each")) {
+  player = {
+      distance: 0,
+      baseSpeed: 0,
+      speedMultipliers: 1,
+      money: 20,
+      funds: player.funds,
+      rocketCost: 10,
+      shipCost: 10,
+      wingCost: 25,
+      rockets: 0,
+      ships: 0,
+      wings: 0,
+      rocketUpdateCost: 20,
+      shipUpdateCost: 20,
+      wingUpdateCost: 40,
+      rocketUpdates: 0,
+      shipUpdates: 0,
+      wingUpdates: 0,
+      nextPlanet: player.nextPlanet * 3,
+      prestigeAmount: player.prestigeAmount,
+      totalMoney: player.totalMoney,
+      totalDistance: player.totalDistance,
+      firstAchievement: player.firstAchievement,
+      secondAchievement: player.secondAchievement,
+      thirdAchievement:player.thirdAchievement,
+      fourthAchievement: player.fourthAchievement,
+      fifthAchievement: player.fifthAchievement,
+      sixthAchievement: player.sixthAchievement,
+      seventhAchievement: player.seventhAchievement,
+      eightAchievement: player.eightAchievement,
+      onAir: false
+    };
+  updateStatistics();
+  player.prestigeAmount = getPrestige()
+
+}
+  
+}
 
 
 function updateAchievements() {
@@ -343,7 +391,11 @@ function updateStatistics() {
   document.getElementById("statRockets").innerHTML = "You have bought " + player.rockets + " rockets."
   document.getElementById("statWings").innerHTML = "You have bought " + player.wings + " pair of wings."
   document.getElementById("statShips").innerHTML = "You have bought " + player.ships + " ships."
-}
+  if (player.prestigeAmount !== 0) document.getElementById("prestige").innerHTML = "You have " + player.prestigeAmount + " refugees on your exoplanet."
+  else document.getElementById("prestige").innerHTML = "You need to travel further..."
+  document.getElementById("fundStats").innerHTML = "You get " + Math.round(player.funds*10)/10 + " per second for each meter travelled. This is increased by achivements"
+    
+ }
 
 
 function achievement(name)
@@ -400,7 +452,7 @@ setInterval(function() {
     if (player.money >= player.shipUpdateCost && player.shipUpdates < 5 && player.ships !== 0) shipUpdateButton.className = 'button';
   else shipUpdateButton.className = 'nbutton';
   
-  document.getElementById("funds").innerHTML = shorten(player.distance*player.funds) + " €/s";
+  document.getElementById("funds").innerHTML = shorten(player.distance*player.funds*(1+player.prestigeAmount*0.02)) + " €/s";
   
   if (player.distance > 10 && !player.firstAchievement) { 
     achievement("I can still see you");
@@ -446,10 +498,13 @@ setInterval(function() {
   
   if (player.onAir) {
     player.distance += speed*diff/10;
-    player.money += player.distance*player.funds*diff/10;
+    player.money += player.distance*player.funds*(1+player.prestigeAmount*0.02)*diff/10;
     player.totalDistance += speed*diff/10;
-    player.totalMoney += player.distance*player.funds*diff/10;
+    player.totalMoney += player.distance*player.funds*(1+player.prestigeAmount*0.02)*diff/10;
   }
+  
+  if (player.distance >= player.nextPlanet) document.getElementById("resetButton").style.visibility = 'visible'
+  else document.getElementById("resetButton").style.visibility = 'hidden'
   
   
   if (player.onAir) launchButton.innerHTML = "Return to Earth."
