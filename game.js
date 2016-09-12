@@ -402,7 +402,7 @@ function updateStatistics() {
   if (player.prestigeAmount !== 0) document.getElementById("prestige").innerHTML = "You have " + shortenCosts(player.prestigeAmount) + " refugees on your exoplanet."
   else document.getElementById("prestige").innerHTML = "You need to travel further..."
   document.getElementById("fundStats").innerHTML = "You get " + Math.round(player.funds*10)/10 + " per second for each meter travelled. This is increased by achivements"
-    
+  
  }
 
 
@@ -523,7 +523,7 @@ setInterval(function() {
   document.getElementById("fundStats").innerHTML = "You get " + Math.round(player.funds*100)/100 + " € per second for each meter travelled. This is increased by achivements"
   document.getElementById("totalMoney").innerHTML = "You have made a total of " + shorten(player.totalMoney) + " €"
   document.getElementById("totalDistance").innerHTML = "You have travelled a total of " + distanceIndicators(player.totalDistance)
-  
+  document.getElementById("nextPlanet").innerHTML = "Distance to the next exoplanet: " + shortenCosts(player.nextPlanet - player.distance)
   shipUpdateButton.setAttribute('data-tooltip', "Adds " + Math.round(0.1*(player.ships*player.shipUpdates+1)*10)/10 + " to your base speed. Currently at " + Math.round(player.baseSpeed*10)/10)
   
   lastUpdate = thisUpdate;
