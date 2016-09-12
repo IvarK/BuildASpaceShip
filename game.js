@@ -280,11 +280,11 @@ launchButton.onclick = function() {
 
 
 function getPrestige() {
-  return Math.round(Math.sqrt(player.totalMoney/1e9)*75)
+  return Math.round(Math.sqrt(player.totalMoney/1e12)*75)
 }
 
 document.getElementById("resetButton").onclick = function() {
-  if (confirm("Do you want to make a colony to the exoplanet you found? You will get " + getPrestige() + " refugees that boost your funding by 2% each")) {
+  if (confirm("Do you want to make a colony to the exoplanet you found? You will get " + shortenCosts(getPrestige()) + " refugees that boost your funding by 2% each")) {
   player = {
       distance: 0,
       baseSpeed: 0,
@@ -399,7 +399,7 @@ function updateStatistics() {
   document.getElementById("statRockets").innerHTML = "You have bought " + player.rockets + " rockets."
   document.getElementById("statWings").innerHTML = "You have bought " + player.wings + " pair of wings."
   document.getElementById("statShips").innerHTML = "You have bought " + player.ships + " ships."
-  if (player.prestigeAmount !== 0) document.getElementById("prestige").innerHTML = "You have " + player.prestigeAmount + " refugees on your exoplanet."
+  if (player.prestigeAmount !== 0) document.getElementById("prestige").innerHTML = "You have " + shortenCosts(player.prestigeAmount) + " refugees on your exoplanet."
   else document.getElementById("prestige").innerHTML = "You need to travel further..."
   document.getElementById("fundStats").innerHTML = "You get " + Math.round(player.funds*10)/10 + " per second for each meter travelled. This is increased by achivements"
     
