@@ -70,9 +70,11 @@
 
 div {
     font-family: Lucida Sans Unicode;
+  
 }
   
 .tab {
+  position: relative;
   background: #68A0B3;
   border-radius: 12px;
   display: none;
@@ -82,6 +84,15 @@ div {
   z-index: 1;
   border: 3px solid black;
 }
+
+
+#wrapper {
+
+  margin: 0px auto;
+  text-align: center;
+  
+}
+
 
 .button {
   background: #E0E0E0;
@@ -201,7 +212,18 @@ button:focus, input[type="button"]:focus {
   }
   
 
+#prestigeUpgrades {
 
+  position: relative;
+  background: #68A0B3;
+  border-radius: 12px;
+  display: block;
+  width: 550px;
+  text-align:center;
+  margin: auto;
+  z-index: 1;
+  border: 3px solid black;
+}
 
 
 [data-tooltip] {
@@ -313,3 +335,126 @@ button:focus, input[type="button"]:focus {
   opacity: 1;
 }
 
+
+
+
+[prstg-tooltip] {
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+}
+
+[prstg-tooltip]:before {
+  visibility: hidden;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+[prstg-tooltip]:before {
+  position: absolute;
+  bottom: -10%;
+  left: -45%;
+  margin-bottom: 5px;
+  margin-left: -80px;
+  padding: 7px;
+  width: 160px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #000;
+  background-color: hsla(0, 0%, 5%, 0.9);
+  color: #fff;
+  content: attr(prstg-tooltip);
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.2;
+  transition-duration: .5s;
+}
+
+
+
+
+[prstg-tooltip]:hover:before {
+  visibility: visible;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+  filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1;
+}
+
+
+
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    z-index: 2;
+}
+
+/* Modal Content */
+.modal-content {
+    position: relative;
+    background-color: #6FB3C9;
+    margin: auto;
+    padding: 0;
+    top: 150px;
+    border: 1px solid #888;
+    width: 800px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+    z-index: 2;
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:150; opacity:1}
+}
+
+@keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:150; opacity:1}
+}
+
+/* The Close Button */
+.close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-header {
+    padding: 2px 16px;
+    background-color: #1C7694;
+    color: white;
+}
+
+.modal-body {padding: 2px 16px;}
+
+.modal-footer {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+
+}
