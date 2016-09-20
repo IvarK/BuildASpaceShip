@@ -12,7 +12,28 @@
 <link rel="stylesheet" type="text/css" href="style.css">
   <div style="height: 20%; background: transparent"></div>
 
-  
+<!-- The Modal -->
+<div id="popup" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close">×</span>
+      <h2 style="text-align:center">Welcome</h2>
+    </div>
+    <div style="text-align:center"class="modal-body">
+      <p>You heard from the news that an perfect exoplanet was found only 500 000 000 meters away from earth. You want to build a ship to get there first.</p>
+      <br>
+      <p>Start by buying a rocket and a ship and press the LAUNCH button.</p>
+      <p>You can upgrade your ship while on air but you need to be on earth to buy new parts.</p>
+      <p></p>
+    </div>
+  </div>
+
+</div>
+  <div style="text-align:center">
+    <img src="BuildASpaceShip/Untitled_000001.png" style="width: 400px">
+  </div>
   <div class="tabswitcher">
     <button class="tabbutton" id="yourship">Your ship</button>
     <button class="tabbutton" id="statbutton">Statistics</button>
@@ -21,38 +42,46 @@
   </div>
   
   
-     
-<div id="game" class="tab" style="display: block">
-  <div id="meters" style="text-align:center" >You have travelled 0 meters.</div>
-  <div id="speed" style="text-align:center" >0 m/s</div>
-  <p id="funds" style="text-align:center" ach-tooltip="You get money for each meter you have travelled per second.">
-    You get 0.1 € per second for each meter travelled.
-      </p>
-  <p>
-  <div id="money" style="font-family:Tahoma;font-size:40px;text-align:center">0 €</div>
-  <div style="text-align:center">
-    <button class="button" id="rockets" >10 € for Bottle rocket.</button>
-    <button data-tooltip="Multiplies your speed by 1.5" class="button" id="rocketUpdate">20 € to update your rockets</button>
-    <span id="rocketUpdateAmount">0/5</span>
-  </div>
-  <div style="text-align:center">
-    <button class="button" id="ship" >10 € for Cardboard box ship.</button>
-    <button data-tooltip="Adds 0.1 * ship level * ship upgrades to your base speed" class="button" id="shipUpdate">20 € to update your wings.</button>
-    <span id="shipUpdateAmount">0/5</span>
-  </div>
-  <div style="text-align:center">
-    <button class="button" id="wings">25 € for Paper wings.</button>
-    <button data-tooltip="Multiplies your speed by 1.2" class="button" id="wingUpdate">40 € to update your wings</button>
-    <span id="wingUpdateAmount">0/5</span>
-  </div>
-  <div>
-    <button id="resetButton" class="button" style="visibility:hidden">Start a new colony.</button>
+<div id="wrapper">
+  <div id="game" class="tab">
+  
+    <div id="main">
+      <div id="meters" style="text-align:center" >You have travelled 0 meters.</div>
+      <div id="speed" style="text-align:center" >0 m/s</div>
+      <p id="funds" style="text-align:center" ach-tooltip="You get money for each meter you have travelled per second.">
+        You get 0.1 € per second for each meter travelled.
+          </p>
+      <p>
+      <div id="money" style="font-family:Tahoma;font-size:40px;text-align:center">0 €</div>
+      <div style="text-align:center">
+        <button class="button" id="rockets" >10 € for Bottle rocket.</button>
+        <button data-tooltip="Multiplies your speed by 1.5" class="button" id="rocketUpdate">20 € to update your rockets</button>
+        <span id="rocketUpdateAmount">0/5</span>
+      </div>
+      <div style="text-align:center">
+        <button class="button" id="ship" >10 € for Cardboard box ship.</button>
+        <button data-tooltip="Adds 0.1 * ship level * ship upgrades to your base speed" class="button" id="shipUpdate">20 € to update your wings.</button>
+        <span id="shipUpdateAmount">0/5</span>
+      </div>
+      <div style="text-align:center">
+        <button class="button" id="wings">25 € for Paper wings.</button>
+        <button data-tooltip="Multiplies your speed by 1.2" class="button" id="wingUpdate">40 € to update your wings</button>
+        <span id="wingUpdateAmount">0/5</span>
+      </div>
+      <div>
+        <button id="resetButton" class="button" style="visibility:hidden">Start a new colony.</button>
+      </div>
+  
+      <div style="text-align: center">
+        <button data-tooltip="You can only buy new parts while on earth."class="button" id="launch">LAUNCH</button>  
+      </div>
+    </div>
   </div>
   
-  <div style="text-align: center">
-    <button data-tooltip="You can only buy new parts while on earth."class="button" id="launch">LAUNCH</button>  
-  </div>
-  </div>
+  
+</div>
+      
+
   
   <div id="achievements" class="tab" style="background: transparent; border: none">
     <div class="achievement" id="firstAchievement" ach-tooltip="Travel 10 meters.">I can still see you</div>
