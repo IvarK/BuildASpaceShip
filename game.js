@@ -544,7 +544,7 @@ window.onclick = function(event) {
     }
 }
 
-
+load_game();
 shipUpdateButton.innerHTML = shortenCosts(player.shipUpdateCost) + " € to update your ship";
 document.getElementById("shipUpdateAmount").innerHTML = player.shipUpdates + "/5";
 rocketUpdateButton.innerHTML = shortenCosts(player.rocketUpdateCost) + " € to update your rockets";
@@ -555,7 +555,7 @@ rocketButton.innerHTML = shortenCosts(player.rocketCost) + " € for " + Rockets
 wingButton.innerHTML = shortenCosts(player.wingCost) + " € for " + Wings[player.wings] + " wings.";
 shipButton.innerHTML = shortenCosts(player.shipCost) + " € for " + Ships[player.ships] + ".";
 
-load_game();
+
 if(player.msgShown === false || player.msgShown === undefined) {
     modal.style.display = "block";
     player.msgShown = true;
