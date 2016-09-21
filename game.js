@@ -593,7 +593,7 @@ setInterval(function() {
   	launchButton.innerHTML = "LAUNCH"
   	player.distance = 0
   }
-  document.getElementById("fundStats").innerHTML = "You get " + Math.round(player.funds*player.capitalismAmount*(1+player.prestigeAmount*0.02)*100)/100 + " € per second for each meter travelled. This is increased by achivements"
+  document.getElementById("fundStats").innerHTML = "You get " + Math.round(player.funds*player.capitalismAmount*(1+player.prestigeAmount*0.02)*100)/100 + " € per second for each meter travelled. This is increased by achievements"
   document.getElementById("totalMoney").innerHTML = "You have made a total of " + shorten(player.totalMoney) + " €"
   document.getElementById("totalDistance").innerHTML = "You have travelled a total of " + distanceIndicators(player.totalDistance)
   if (player.distance < player.nextPlanet) document.getElementById("nextPlanet").innerHTML = "Distance to the next exoplanet: " + shortenCosts(player.nextPlanet - player.distance)
