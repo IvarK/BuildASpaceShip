@@ -5,6 +5,7 @@ var player = {
 	speedMultipliers: 1,
 	money: 20,
 	funds: 0.1,
+  capitalismAmount: 1,
 	rocketCost: 10,
 	shipCost: 10,
 	wingCost: 25,
@@ -230,6 +231,7 @@ document.getElementById("hardReset").onclick = function() {
       distance: 0,
       baseSpeed: 0,
       speedMultipliers: 1,
+      capitalismAmount: 1,
       money: 20,
       funds: 0.1,
       rocketCost: 10,
@@ -302,7 +304,7 @@ slaveryButton.onclick = function() {
 
 capitalismButton.onclick = function() {
   if (player.prestigeAmount >= player.capitalismCost) {
-    player.speedMultipliers *= 3
+    player.capitalismAmount *= 3
     player.prestigeAmount -= player.capitalismCost
     player.capitalismCost *= 20000
     document.getElementById("capitalismCost").innerHTML = 'Cost: ' + shortenCosts(player.capitalismCost) + ' refugees.'
@@ -321,6 +323,7 @@ document.getElementById("resetButton").onclick = function() {
       distance: 0,
       baseSpeed: 0,
       speedMultipliers: 1,
+      capitalismAmount: 1,
       money: 20,
       funds: player.funds,
       rocketCost: 10,
@@ -512,7 +515,7 @@ setInterval(function() {
   
   
   
-  document.getElementById("funds").innerHTML = shorten(player.distance*player.funds*(1+player.prestigeAmount*0.02)) + " €/s";
+  document.getElementById("funds").innerHTML = shorten(player.distance*player.funds*player.capitalismAmount*(1+player.prestigeAmount*0.02)) + " €/s";
   
   if (player.distance > 10 && !player.firstAchievement) { 
     achievement("I can still see you");
@@ -558,9 +561,9 @@ setInterval(function() {
   
   if (player.onAir) {
     player.distance += speed*diff/10;
-    player.money += player.distance*player.funds*(1+player.prestigeAmount*0.02)*diff/10;
+    player.money += player.distance*player.funds*player.capitalismAmount*(1+player.prestigeAmount*0.02)*diff/10;
     player.totalDistance += speed*diff/10;
-    player.totalMoney += player.distance*player.funds*(1+player.prestigeAmount*0.02)*diff/10;
+    player.totalMoney += player.distance*player.funds*player.capitalismAmount*(1+player.prestigeAmount*0.02)*diff/10;
   }
   
   if (player.distance >= player.nextPlanet) document.getElementById("resetButton").style.visibility = 'visible'
@@ -572,7 +575,7 @@ setInterval(function() {
   	launchButton.innerHTML = "LAUNCH"
   	player.distance = 0
   }
-  document.getElementById("fundStats").innerHTML = "You get " + Math.round(player.funds*(1+player.prestigeAmount*0.02)*100)/100 + " € per second for each meter travelled. This is increased by achivements"
+  document.getElementById("fundStats").innerHTML = "You get " + Math.round(player.funds*player.capitalismAmount*(1+player.prestigeAmount*0.02)*100)/100 + " € per second for each meter travelled. This is increased by achivements"
   document.getElementById("totalMoney").innerHTML = "You have made a total of " + shorten(player.totalMoney) + " €"
   document.getElementById("totalDistance").innerHTML = "You have travelled a total of " + distanceIndicators(player.totalDistance)
   if (player.distance < player.nextPlanet) document.getElementById("nextPlanet").innerHTML = "Distance to the next exoplanet: " + shortenCosts(player.nextPlanet - player.distance)
@@ -611,7 +614,6 @@ document.getElementById("slaveryCost").innerHTML = 'Cost: ' + shortenCosts(playe
 document.getElementById("capitalismCost").innerHTML = 'Cost: ' + shortenCosts(player.capitalismCost) + ' refugees.'
 if (player.prestigeAmount !== 0) document.getElementById("prestigeUpgrades").style.display = 'block'
 else document.getElementById("prestigeUpgrades").style.display = 'none'
-
 if(player.msgShown === false || player.msgShown === undefined) {
     modal.style.display = "block";
     player.msgShown = true;
