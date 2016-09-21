@@ -199,6 +199,8 @@ wingUpdateButton.onclick = function() {
     wingUpdateButton.innerHTML = shortenCosts(player.wingUpdateCost) + " € to update your wings";
     document.getElementById("wingUpdateAmount").innerHTML = player.wingUpdates + "/5";
   updateStatistics()
+    speed = player.baseSpeed * player.speedMultipliers;
+      speedLabel.innerHTML = speedIndicators(speed);
   }
 };
 
@@ -211,6 +213,8 @@ rocketUpdateButton.onclick = function() {
     player.rocketUpdates++;
     rocketUpdateButton.innerHTML = shortenCosts(player.rocketUpdateCost) + " € to update your rockets";
     document.getElementById("rocketUpdateAmount").innerHTML = player.rocketUpdates + "/5";
+      speed = player.baseSpeed * player.speedMultipliers;
+      speedLabel.innerHTML = speedIndicators(speed);
   }
 };
 
@@ -223,6 +227,9 @@ shipUpdateButton.onclick = function() {
     player.shipUpdates++;
     shipUpdateButton.innerHTML = shortenCosts(player.shipUpdateCost) + " € to update your ship";
     document.getElementById("shipUpdateAmount").innerHTML = player.shipUpdates + "/5";
+    shipUpdateButton.setAttribute('data-tooltip', "Adds " + Math.round(0.1*(player.ships*player.shipUpdates+1)*10)/10 + " to your base speed. Currently at " + Math.round(player.baseSpeed*10)/10)
+      speed = player.baseSpeed * player.speedMultipliers;
+      speedLabel.innerHTML = speedIndicators(speed);
   }
 };
 
@@ -277,6 +284,7 @@ document.getElementById("hardReset").onclick = function() {
     updateAchievements();
     updateStatistics();
     document.getElementById("prestigeUpgrades").style.display = 'none'
+      speed = player.baseSpeed * player.speedMultipliers;
   }
 };
 
@@ -289,6 +297,11 @@ launchButton.onclick = function() {
   else {
     player.onAir = true
   }
+  if (player.onAir) launchButton.innerHTML = "Return to Earth."
+  else {
+  	launchButton.innerHTML = "LAUNCH"
+  	player.distance = 0
+  }
 }
 
 
@@ -299,6 +312,8 @@ slaveryButton.onclick = function() {
     player.prestigeAmount -= player.slaveryCost
     player.slaveryCost *= 10000
     document.getElementById("slaveryCost").innerHTML = 'Cost: ' + shortenCosts(player.slaveryCost) + ' refugees.'
+       speed = player.baseSpeed * player.speedMultipliers;
+      speedLabel.innerHTML = speedIndicators(speed);
   }
 }
 
@@ -310,6 +325,8 @@ capitalismButton.onclick = function() {
     player.prestigeAmount -= player.capitalismCost
     player.capitalismCost *= 20000
     document.getElementById("capitalismCost").innerHTML = 'Cost: ' + shortenCosts(player.capitalismCost) + ' refugees.'
+      speed = player.baseSpeed * player.speedMultipliers;
+      speedLabel.innerHTML = speedIndicators(speed);
   }
 }
 
@@ -371,6 +388,8 @@ document.getElementById("resetButton").onclick = function() {
     document.getElementById("prestigeUpgrades").style.display = 'block'
     document.getElementById("slaveryCost").innerHTML = 'Cost: ' + shortenCosts(player.slaveryCost) + ' refugees.'
 document.getElementById("capitalismCost").innerHTML = 'Cost: ' + shortenCosts(player.capitalismCost) + ' refugees.'
+  speed = player.baseSpeed * player.speedMultipliers;
+      speedLabel.innerHTML = speedIndicators(speed);
   }
   
 }
@@ -396,7 +415,7 @@ function showTab(tabName) {
     for (var i = 0; i < tabs.length; i++) {
         tab = tabs.item(i);
         if (tab.id === tabName) {
-            tab.style.display = 'block';
+            tab.style.display = 'inline-block';
         } else {
             tab.style.display = 'none';
         }
@@ -411,15 +430,18 @@ function init() {
     //setup the onclick callbacks for the buttons
     document.getElementById('yourship').onclick=function () {
       showTab('game');
+      document.getElementById("shipContainer").style.display = 'inline-block'
       if(player.prestigeAmount !== 0) document.getElementById("prestigeUpgrades").style.display = 'block'
     };
     document.getElementById('statbutton').onclick=function () {
       showTab('statistics');
       document.getElementById("prestigeUpgrades").style.display = 'none'
+      document.getElementById("shipContainer").style.display = 'none'
     };
     document.getElementById('achievementbutton').onclick=function () {
       showTab('achievements');
       document.getElementById("prestigeUpgrades").style.display = 'none'
+      document.getElementById("shipContainer").style.display = 'none'
     };
     
     //show one tab during init or they'll all start hidden
@@ -436,8 +458,13 @@ function speedIndicators(howfast) {
   else return shorten(howfast) + " m/s"
 }
 
-
-
+var shipPosition = 0
+function moveShip() {
+  if (player.distance < player.nextPlanet) {
+    shipPosition = Math.round((86 - 83 * player.distance/player.nextPlanet)*100)/100
+    document.getElementById("shipDisplay").style.top = shipPosition + '%';
+  }
+}
 
 function distanceIndicators(howfar) {
   if (howfar > 9.4605284e18) return shorten(howfar/9.4605284e18) + " light-milleniums."
@@ -453,7 +480,7 @@ function updateStatistics() {
   document.getElementById("statShips").innerHTML = "You have bought " + player.ships + " ships."
   if (player.prestigeAmount !== 0) document.getElementById("prestige").innerHTML = "You have " + shortenCosts(player.prestigeAmount) + " refugees on your exoplanet."
   else document.getElementById("prestige").innerHTML = "You need to travel further..."
-  document.getElementById("fundStats").innerHTML = "You get " + Math.round(player.funds*10)/10 + " per second for each meter travelled. This is increased by achievements"
+  document.getElementById("fundStats").innerHTML = "You get " + Math.round(player.funds*player.capitalismAmount*(1+player.prestigeAmount*0.02)*100)/100 + " € per second for each meter travelled. This is increased by achivements"
   document.getElementById("bestDistance").innerHTML = 'Furthest travelled: ' + shorten(player.bestDistance)
   var achievements = 0
   if (player.firstAchievement) achievements++;
@@ -474,18 +501,20 @@ function achievement(name)
   $( '#achievementBox' ).fadeIn( 4000 ).fadeOut(1500);
   player.funds *= 1.1
   updateAchievements();
-  document.getElementById("fundStats").innerHTML = "You get " + Math.round(player.funds*10)/10 + " per second for each meter travelled. This is increased by achivements"
+  document.getElementById("fundStats").innerHTML = "You get " + Math.round(player.funds*player.capitalismAmount*(1+player.prestigeAmount*0.02)*100)/100 + " € per second for each meter travelled. This is increased by achivements"
+    speedLabel.innerHTML = speedIndicators(speed);
 }
 
 
 setInterval(function() {
+  moveShip()
   var thisUpdate = new Date().getTime();
   var diff = thisUpdate - lastUpdate;
   diff = diff/100;
   meterLabel.innerHTML = "You have travelled " + distanceIndicators(player.distance);
-  speedLabel.innerHTML = speedIndicators(speed);
   moneyLabel.innerHTML = shorten(player.money) + " €";
-  speed = player.baseSpeed * player.speedMultipliers;
+  document.getElementById("funds").innerHTML = shorten(player.distance*player.funds*player.capitalismAmount*(1+player.prestigeAmount*0.02)) + " €/s";
+
   
   if (player.money >= player.rocketCost) rocketButton.className = 'button';
   else rocketButton.className = 'nbutton';
@@ -526,16 +555,37 @@ setInterval(function() {
   if (player.prestigeAmount >= player.capitalismCost) capitalismButton.className = 'button'
   else capitalismButton.className = 'nbutton'
   
-  if (player.distance > player.bestDistance) {
+ 
+
+  if (player.onAir) {
+    player.distance += speed*diff/10;
+    player.money += player.distance*player.funds*player.capitalismAmount*(1+player.prestigeAmount*0.02)*diff/10;
+    player.totalDistance += speed*diff/10;
+    player.totalMoney += player.distance*player.funds*player.capitalismAmount*(1+player.prestigeAmount*0.02)*diff/10;
+  }
+  
+  if (player.distance >= player.nextPlanet) document.getElementById("resetButton").style.visibility = 'visible'
+  else document.getElementById("resetButton").style.visibility = 'hidden'
+  
+  document.getElementById("totalMoney").innerHTML = "You have made a total of " + shorten(player.totalMoney) + " €"
+  document.getElementById("totalDistance").innerHTML = "You have travelled a total of " + distanceIndicators(player.totalDistance)
+  document.getElementById("nextPlanet").innerHTML = "Distance to the next exoplanet: " + Math.min(shortenCosts(player.nextPlanet - player.distance), 0)
+
+  
+  lastUpdate = thisUpdate;
+}, 100);
+
+setInterval(function () { save_game(); }, 10000);
+
+setInterval(function () {
+  
+   if (player.distance > player.bestDistance) {
     player.bestDistance = player.distance
     document.getElementById("bestDistance").innerHTML = 'Furthest travelled: ' + shorten(player.bestDistance)
   }
   
   
-  
-  document.getElementById("funds").innerHTML = shorten(player.distance*player.funds*player.capitalismAmount*(1+player.prestigeAmount*0.02)) + " €/s";
-  
-  if (player.distance > 10 && !player.firstAchievement) { 
+if (player.distance > 10 && !player.firstAchievement) { 
     achievement("I can still see you");
     player.firstAchievement = true;
   }
@@ -575,50 +625,18 @@ setInterval(function() {
     achievement("Millenium? That's like a thousand years!");
     player.eightAchievement = true;
   }
-  
-  
-  if (player.onAir) {
-    player.distance += speed*diff/10;
-    player.money += player.distance*player.funds*player.capitalismAmount*(1+player.prestigeAmount*0.02)*diff/10;
-    player.totalDistance += speed*diff/10;
-    player.totalMoney += player.distance*player.funds*player.capitalismAmount*(1+player.prestigeAmount*0.02)*diff/10;
-  }
-  
-  if (player.distance >= player.nextPlanet) document.getElementById("resetButton").style.visibility = 'visible'
-  else document.getElementById("resetButton").style.visibility = 'hidden'
-  
-  
-  if (player.onAir) launchButton.innerHTML = "Return to Earth."
-  else {
-  	launchButton.innerHTML = "LAUNCH"
-  	player.distance = 0
-  }
-  document.getElementById("fundStats").innerHTML = "You get " + Math.round(player.funds*player.capitalismAmount*(1+player.prestigeAmount*0.02)*100)/100 + " € per second for each meter travelled. This is increased by achievements"
-  document.getElementById("totalMoney").innerHTML = "You have made a total of " + shorten(player.totalMoney) + " €"
-  document.getElementById("totalDistance").innerHTML = "You have travelled a total of " + distanceIndicators(player.totalDistance)
-  if (player.distance < player.nextPlanet) document.getElementById("nextPlanet").innerHTML = "Distance to the next exoplanet: " + shortenCosts(player.nextPlanet - player.distance)
-  else document.getElementById("nextPlanet").innerHTML = "Distance to the next exoplanet: 0"
-  shipUpdateButton.setAttribute('data-tooltip', "Adds " + Math.round(0.1*(player.ships*player.shipUpdates+1)*10)/10 + " to your base speed. Currently at " + Math.round(player.baseSpeed*10)/10)
-  
-  lastUpdate = thisUpdate;
-}, 100);
 
 
-var modal = document.getElementById('popup');
 
-var span = document.getElementsByClassName("close")[0];
+}, 1000);
 
-span.onclick = function() {
-    modal.style.display = "none";
-}
 
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
+
 
 load_game();
+
+
+
 if (player.bestDistance == undefined) {
 player = {
       distance: player.distance,
@@ -660,6 +678,31 @@ player = {
   
 }
 
+
+if (player.onAir) launchButton.innerHTML = "Return to Earth."
+  else {
+  	launchButton.innerHTML = "LAUNCH"
+  	player.distance = 0
+  }
+
+var modal = document.getElementById('popup');
+
+var span = document.getElementsByClassName("close")[0];
+
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+  speedLabel.innerHTML = speedIndicators(speed);
+  speed = player.baseSpeed * player.speedMultipliers;
+  shipUpdateButton.setAttribute('data-tooltip', "Adds " + Math.round(0.1*(player.ships*player.shipUpdates+1)*10)/10 + " to your base speed. Currently at " + Math.round(player.baseSpeed*10)/10)
+document.getElementById("fundStats").innerHTML = "You get " + Math.round(player.funds*player.capitalismAmount*(1+player.prestigeAmount*0.02)*100)/100 + " € per second for each meter travelled. This is increased by achivements"
 shipUpdateButton.innerHTML = shortenCosts(player.shipUpdateCost) + " € to update your ship";
 document.getElementById("shipUpdateAmount").innerHTML = player.shipUpdates + "/5";
 rocketUpdateButton.innerHTML = shortenCosts(player.rocketUpdateCost) + " € to update your rockets";
@@ -678,7 +721,8 @@ if(player.msgShown === false || player.msgShown === undefined) {
     player.msgShown = true;
 }
 
-setInterval(function () { save_game(); }, 10000);
+
+
 
 init();
 updateStatistics();
