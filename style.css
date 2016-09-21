@@ -130,6 +130,24 @@ button:focus, input[type="button"]:focus {
 }
 
 
+.container {
+  position:absolute;
+  top:20%;
+  background-color: #1A627A;
+  width: 120px;
+  height: 600px;
+  display: inline-block;
+  margin: 0px auto;
+  border-radius: 6px
+}
+
+.ship {
+  width:120px;
+  left:0%;
+  top:20px;
+  position:absolute;
+}
+
 .nbutton {
   color: #D6D0D0;
   background: #2B2B2B;
