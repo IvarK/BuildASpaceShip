@@ -1,6 +1,7 @@
 var player = {
 
 	distance: 0,
+  bestDistance: 0,
 	baseSpeed: 0,
 	speedMultipliers: 1,
 	money: 20,
@@ -229,6 +230,7 @@ document.getElementById("hardReset").onclick = function() {
   if(confirm("Are you sure you want to erase all your progress?")) {
   	player = {
       distance: 0,
+      bestDistance: 0,
       baseSpeed: 0,
       speedMultipliers: 1,
       capitalismAmount: 1,
@@ -322,6 +324,7 @@ document.getElementById("resetButton").onclick = function() {
   player = {
       distance: 0,
       baseSpeed: 0,
+      bestDistance: 0,
       speedMultipliers: 1,
       capitalismAmount: 1,
       money: 20,
@@ -451,7 +454,17 @@ function updateStatistics() {
   if (player.prestigeAmount !== 0) document.getElementById("prestige").innerHTML = "You have " + shortenCosts(player.prestigeAmount) + " refugees on your exoplanet."
   else document.getElementById("prestige").innerHTML = "You need to travel further..."
   document.getElementById("fundStats").innerHTML = "You get " + Math.round(player.funds*10)/10 + " per second for each meter travelled. This is increased by achivements"
-    
+  document.getElementById("bestDistance").innerHTML = 'Furthest travelled: ' + shorten(player.bestDistance)
+  var achievements = 0
+  if (player.firstAchievement) achievements++;
+  if (player.secondAchievement) achievements++;
+  if (player.thirdAchievement) achievements++;
+  if (player.fourthAchievement) achievements++;
+  if (player.fifthAchievement) achievements++;
+  if (player.sixthAchievement) achievements++;
+  if (player.seventhAchievement) achievements++;
+  if (player.eightAchievement) achievements++;
+  document.getElementById("achievementAmount").innerHTML = achievements + '/8 achievements unlocked.'
  }
 
 
@@ -512,6 +525,11 @@ setInterval(function() {
   
   if (player.prestigeAmount >= player.capitalismCost) capitalismButton.className = 'button'
   else capitalismButton.className = 'nbutton'
+  
+  if (player.distance > player.bestDistance) {
+    player.bestDistance = player.distance
+    document.getElementById("bestDistance").innerHTML = 'Furthest travelled: ' + shorten(player.bestDistance)
+  }
   
   
   
@@ -601,6 +619,47 @@ window.onclick = function(event) {
 }
 
 load_game();
+if (player.bestDistance == undefined) {
+player = {
+      distance: player.distance,
+      baseSpeed: player.baseSpeed,
+      bestDistance: 0,
+      speedMultipliers: player.speedMultipliers,
+      capitalismAmount: player.capitalismAmount,
+      money: player.money,
+      funds: player.funds,
+      rocketCost: player.rocketCost,
+      shipCost: player.shipCost,
+      wingCost: player.wingCost,
+      rockets: player.rockets,
+      ships: player.ships,
+      wings: player.wings,
+      rocketUpdateCost: player.rocketUpdateCost,
+      shipUpdateCost: player.shipUpdateCost,
+      wingUpdateCost: player.wingUpdateCost,
+      rocketUpdates: player.rocketUpdates,
+      shipUpdates: player.shipUpdates,
+      wingUpdates: player.wingUpdates,
+      nextPlanet: player.nextPlanet,
+      prestigeAmount: player.prestigeAmount,
+      totalMoney: player.totalMoney,
+      totalDistance: player.totalDistance,
+      firstAchievement: player.firstAchievement,
+      secondAchievement: player.secondAchievement,
+      thirdAchievement:player.thirdAchievement,
+      fourthAchievement: player.fourthAchievement,
+      fifthAchievement: player.fifthAchievement,
+      sixthAchievement: player.sixthAchievement,
+      seventhAchievement: player.seventhAchievement,
+      eightAchievement: player.eightAchievement,
+      slaveryCost: player.slaveryCost,
+      capitalismCost: player.capitalismCost,
+      onAir: player.onAir,
+      msgShown: player.msgShown
+    };
+  
+}
+
 shipUpdateButton.innerHTML = shortenCosts(player.shipUpdateCost) + " € to update your ship";
 document.getElementById("shipUpdateAmount").innerHTML = player.shipUpdates + "/5";
 rocketUpdateButton.innerHTML = shortenCosts(player.rocketUpdateCost) + " € to update your rockets";
