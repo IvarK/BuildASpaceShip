@@ -29,6 +29,8 @@ var player = {
   sixthAchievement: false,
   seventhAchievement: false,
   eightAchievement: false,
+  slaveryCost: 10,
+  capitalismCost: 50,
   onAir: false,
   msgShown: false
 };
@@ -45,6 +47,8 @@ var rocketUpdateButton = document.getElementById("rocketUpdate");
 var shipUpdateButton = document.getElementById("shipUpdate");
 var wingUpdateButton = document.getElementById("wingUpdate");
 var launchButton = document.getElementById("launch")
+var slaveryButton = document.getElementById("speedMultiplier")
+var capitalismButton = document.getElementById("baseMultiplier")
 
 function set_cookie(cookie_name,value) {
     expiry = new Date();   
@@ -252,6 +256,8 @@ document.getElementById("hardReset").onclick = function() {
       sixthAchievement: false,
       seventhAchievement: false,
       eightAchievement: false,
+      slaveryCost: 10,
+      capitalismCost: 50,
       onAir: false,
       msgShown: true
     };
@@ -266,6 +272,7 @@ document.getElementById("hardReset").onclick = function() {
     shipButton.innerHTML = shortenCosts(player.shipCost) + " € for " + Ships[player.ships] + ".";
     updateAchievements();
     updateStatistics();
+    document.getElementById("prestigeUpgrades").style.display = 'none'
   }
 };
 
@@ -279,6 +286,29 @@ launchButton.onclick = function() {
     player.onAir = true
   }
 }
+
+
+
+slaveryButton.onclick = function() {
+  if (player.prestigeAmount >= player.slaveryCost) {
+    player.speedMultipliers *= 3
+    player.prestigeAmount -= player.slaveryCost
+    player.slaveryCost *= 10000
+    document.getElementById("slaveryCost").innerHTML = 'Cost: ' + shortenCosts(player.slaveryCost) + ' refugees.'
+  }
+}
+
+
+
+capitalismButton.onclick = function() {
+  if (player.prestigeAmount >= player.capitalismCost) {
+    player.speedMultipliers *= 3
+    player.prestigeAmount -= player.capitalismCost
+    player.capitalismCost *= 20000
+    document.getElementById("capitalismCost").innerHTML = 'Cost: ' + shortenCosts(player.capitalismCost) + ' refugees.'
+  }
+}
+
 
 
 function getPrestige() {
@@ -317,6 +347,8 @@ document.getElementById("resetButton").onclick = function() {
       sixthAchievement: player.sixthAchievement,
       seventhAchievement: player.seventhAchievement,
       eightAchievement: player.eightAchievement,
+      slaveryCost: 10,
+      capitalismCost: 50,
       onAir: false,
       msgShown: true
     };
@@ -330,7 +362,10 @@ document.getElementById("resetButton").onclick = function() {
     rocketButton.innerHTML = shortenCosts(player.rocketCost) + " € for " + Rockets[player.rockets] + " rocket.";
     wingButton.innerHTML = shortenCosts(player.wingCost) + " € for " + Wings[player.wings] + " wings.";
     shipButton.innerHTML = shortenCosts(player.shipCost) + " € for " + Ships[player.ships] + ".";
-}
+    document.getElementById("prestigeUpgrades").style.display = 'block'
+    document.getElementById("slaveryCost").innerHTML = 'Cost: ' + shortenCosts(player.slaveryCost) + ' refugees.'
+document.getElementById("capitalismCost").innerHTML = 'Cost: ' + shortenCosts(player.capitalismCost) + ' refugees.'
+  }
   
 }
 
@@ -368,9 +403,18 @@ function init() {
     console.log('init');
     
     //setup the onclick callbacks for the buttons
-    document.getElementById('yourship').onclick=function () {showTab('game');};
-    document.getElementById('statbutton').onclick=function () {showTab('statistics');};
-    document.getElementById('achievementbutton').onclick=function () {showTab('achievements');};
+    document.getElementById('yourship').onclick=function () {
+      showTab('game');
+      if(player.prestigeAmount !== 0) document.getElementById("prestigeUpgrades").style.display = 'block'
+    };
+    document.getElementById('statbutton').onclick=function () {
+      showTab('statistics');
+      document.getElementById("prestigeUpgrades").style.display = 'none'
+    };
+    document.getElementById('achievementbutton').onclick=function () {
+      showTab('achievements');
+      document.getElementById("prestigeUpgrades").style.display = 'none'
+    };
     
     //show one tab during init or they'll all start hidden
     showTab('game');
@@ -460,6 +504,14 @@ setInterval(function() {
     if (player.money >= player.shipUpdateCost && player.shipUpdates < 5 && player.ships !== 0) shipUpdateButton.className = 'button';
   else shipUpdateButton.className = 'nbutton';
   
+  if (player.prestigeAmount >= player.slaveryCost) slaveryButton.className = 'button'
+  else slaveryButton.className = 'nbutton'
+  
+  if (player.prestigeAmount >= player.capitalismCost) capitalismButton.className = 'button'
+  else capitalismButton.className = 'nbutton'
+  
+  
+  
   document.getElementById("funds").innerHTML = shorten(player.distance*player.funds*(1+player.prestigeAmount*0.02)) + " €/s";
   
   if (player.distance > 10 && !player.firstAchievement) { 
@@ -523,7 +575,8 @@ setInterval(function() {
   document.getElementById("fundStats").innerHTML = "You get " + Math.round(player.funds*(1+player.prestigeAmount*0.02)*100)/100 + " € per second for each meter travelled. This is increased by achivements"
   document.getElementById("totalMoney").innerHTML = "You have made a total of " + shorten(player.totalMoney) + " €"
   document.getElementById("totalDistance").innerHTML = "You have travelled a total of " + distanceIndicators(player.totalDistance)
-  document.getElementById("nextPlanet").innerHTML = "Distance to the next exoplanet: " + shortenCosts(player.nextPlanet - player.distance)
+  if (player.distance < player.nextPlanet) document.getElementById("nextPlanet").innerHTML = "Distance to the next exoplanet: " + shortenCosts(player.nextPlanet - player.distance)
+  else document.getElementById("nextPlanet").innerHTML = "Distance to the next exoplanet: 0"
   shipUpdateButton.setAttribute('data-tooltip', "Adds " + Math.round(0.1*(player.ships*player.shipUpdates+1)*10)/10 + " to your base speed. Currently at " + Math.round(player.baseSpeed*10)/10)
   
   lastUpdate = thisUpdate;
@@ -554,7 +607,10 @@ document.getElementById("wingUpdateAmount").innerHTML = player.wingUpdates + "/5
 rocketButton.innerHTML = shortenCosts(player.rocketCost) + " € for " + Rockets[player.rockets] + " rocket.";
 wingButton.innerHTML = shortenCosts(player.wingCost) + " € for " + Wings[player.wings] + " wings.";
 shipButton.innerHTML = shortenCosts(player.shipCost) + " € for " + Ships[player.ships] + ".";
-
+document.getElementById("slaveryCost").innerHTML = 'Cost: ' + shortenCosts(player.slaveryCost) + ' refugees.'
+document.getElementById("capitalismCost").innerHTML = 'Cost: ' + shortenCosts(player.capitalismCost) + ' refugees.'
+if (player.prestigeAmount !== 0) document.getElementById("prestigeUpgrades").style.display = 'block'
+else document.getElementById("prestigeUpgrades").style.display = 'none'
 
 if(player.msgShown === false || player.msgShown === undefined) {
     modal.style.display = "block";
