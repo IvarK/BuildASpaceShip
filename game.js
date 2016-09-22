@@ -399,7 +399,11 @@ document.getElementById("capitalismCost").innerHTML = 'Cost: ' + shortenCosts(pl
   speed = player.baseSpeed * player.speedMultipliers;
       speedLabel.innerHTML = speedIndicators(speed);
   }
-  
+  if (player.onAir) launchButton.innerHTML = "Return to Earth."
+  else {
+  	launchButton.innerHTML = "LAUNCH"
+  	player.distance = 0
+  }
 }
 
 //updates achievements for the tab
