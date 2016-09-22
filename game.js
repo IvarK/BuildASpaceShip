@@ -36,6 +36,9 @@ var player = {
   onAir: false,
   msgShown: false
 };
+
+
+// variables
 var defaultplayer = player;
 var speed = player.baseSpeed * player.speedMultipliers;
 var lastUpdate = new Date().getTime();
@@ -52,6 +55,8 @@ var launchButton = document.getElementById("launch")
 var slaveryButton = document.getElementById("speedMultiplier")
 var capitalismButton = document.getElementById("baseMultiplier")
 
+
+//saving mechanics
 function set_cookie(cookie_name,value) {
     expiry = new Date();   
     expiry.setTime(new Date().getTime() + (365*24*60*60*1000)); 
@@ -89,7 +94,7 @@ function save_game() {
 
 
 
-
+//Names of ship parts and money formatting
 Rockets = ['Bottle', 'Canister', 'Gas tank', 'Firework', 'Gasoline', 'Diesel', 'Propane', 'Uranium', 'Alien', 'Hyperdrive', 'Antimatter'];
 Ships = ['Cardboard box ship', 'Trash can ship', 'Sofa ship', 'Ikea shelf ship', 'Lada ship', 'Ford Escort ship', 'Audi ship', 'Delorean', 'Old Russian spacecraft', 'USS Discovery One', 'Battlestar Galactica BG-75', 'Prometheus', 'Serenity', 'Star Destroyer', 'USS Enterprise',  'Millenium Falcon'];
 Wings = ['Paper', 'Cloth', 'Aluminium foil', 'Plastic', 'Wooden', 'Iron', 'Steel', 'Aluminium', 'Titanium', 'Carbon fabric', 'Adamantium', 'Black Matter'];
@@ -126,7 +131,7 @@ shortenCosts = function(x) {
 };
 
 
-
+//Button click actions
 rocketButton.onclick = function() {
   if (player.rockets === 0 && player.money >= player.rocketCost && !player.onAir) {
     player.money -= player.rocketCost;
@@ -333,7 +338,7 @@ capitalismButton.onclick = function() {
 }
 
 
-
+//returns how much prestige you get from total money
 function getPrestige() {
   return Math.round(Math.sqrt(player.totalMoney/1e11)*100)
 }
@@ -396,7 +401,7 @@ document.getElementById("capitalismCost").innerHTML = 'Cost: ' + shortenCosts(pl
   
 }
 
-
+//updates achievements for the tab
 function updateAchievements() {
   if (player.firstAchievement) document.getElementById("firstAchievement").style.display = 'block'
   if (player.secondAchievement) document.getElementById("secondAchievement").style.display = 'block'
@@ -407,7 +412,7 @@ function updateAchievements() {
   if (player.seventhAchievement) document.getElementById("seventhAchievement").style.display = 'block'
   if (player.eightAchievement) document.getElementById("eightAchievement").style.display = 'block'
 }
-
+// function for changing tab
 function showTab(tabName) {
     console.log('show tab ' + tabName);
     
@@ -451,7 +456,7 @@ function init() {
 }
 
 
-
+//input raw speed and outputs it shortened to for example light-years
 function speedIndicators(howfast) {
   if (howfast > 9.4605284e18) return shorten(howfast/9.4605284e18) + " light-milleniums/s"
   else if (howfast > 9.4605284e15) return shorten(howfast/9.4605284e15) + " light-years/s"
@@ -460,6 +465,7 @@ function speedIndicators(howfast) {
   else return shorten(howfast) + " m/s"
 }
 
+//function for moving the ship visually
 var shipPosition = 0
 function moveShip() {
   if (player.distance < player.nextPlanet) {
@@ -467,14 +473,14 @@ function moveShip() {
     document.getElementById("shipDisplay").style.top = shipPosition + '%';
   }
 }
-
+// same as speedIndicators but for distance
 function distanceIndicators(howfar) {
   if (howfar > 9.4605284e18) return shorten(howfar/9.4605284e18) + " light-milleniums."
   else if (howfar > 9.4605284e15) return shorten(howfar/9.4605284e15) + " light-years."
   else if (howfar > 149597871000) return shorten(howfar/149597871000) + " AUs."
   else return shorten(howfar) + " meters."
 }
-  
+  //updates statistics tab
 function updateStatistics() {
   document.getElementById("baseSpeed").innerHTML = "Your base speed is " + Math.round(player.baseSpeed*10)/10
   document.getElementById("statRockets").innerHTML = "You have bought " + player.rockets + " rockets."
@@ -496,7 +502,7 @@ function updateStatistics() {
   document.getElementById("achievementAmount").innerHTML = achievements + '/8 achievements unlocked.'
  }
 
-
+//function for unlocking an achievement
 function achievement(name)
 {
   document.getElementById("achievementBox").innerHTML = name;
@@ -507,7 +513,7 @@ function achievement(name)
     speedLabel.innerHTML = speedIndicators(speed);
 }
 
-
+//Intervals
 setInterval(function() {
   moveShip()
   var thisUpdate = new Date().getTime();
@@ -638,7 +644,7 @@ if (player.distance > 10 && !player.firstAchievement) {
 load_game();
 
 
-
+// this is for old saves that don't have bestDistance
 if (player.bestDistance == undefined) {
 player = {
       distance: player.distance,
@@ -680,7 +686,7 @@ player = {
   
 }
 
-
+//for page refreshes
 if (player.onAir) launchButton.innerHTML = "Return to Earth."
   else {
   	launchButton.innerHTML = "LAUNCH"
@@ -719,6 +725,8 @@ document.getElementById("slaveryCost").innerHTML = 'Cost: ' + shortenCosts(playe
 document.getElementById("capitalismCost").innerHTML = 'Cost: ' + shortenCosts(player.capitalismCost) + ' refugees.'
 if (player.prestigeAmount !== 0) document.getElementById("prestigeUpgrades").style.display = 'block'
 else document.getElementById("prestigeUpgrades").style.display = 'none'
+
+//first time message
 if(player.msgShown === false || player.msgShown === undefined) {
     modal.style.display = "block";
     player.msgShown = true;
