@@ -383,6 +383,7 @@ document.getElementById("resetButton").onclick = function() {
       msgShown: true
     };
   updateStatistics();
+  updateAchievements();
   shipUpdateButton.innerHTML = shortenCosts(player.shipUpdateCost) + " € to update your ship";
     document.getElementById("shipUpdateAmount").innerHTML = "0/5";
     rocketUpdateButton.innerHTML = shortenCosts(player.rocketUpdateCost) + " € to update your rockets";
