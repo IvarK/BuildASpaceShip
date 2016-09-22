@@ -293,6 +293,28 @@ document.getElementById("hardReset").onclick = function() {
   }
 };
 
+document.getElementById("twinklingbtn").onclick = function() {
+  if(document.getElementsByClassName("twinkling")[0].style.display == 'block' || document.getElementsByClassName("twinkling")[0].style.display == '') {
+    document.getElementsByClassName("twinkling")[0].style.display = 'none'
+  }
+  else document.getElementsByClassName("twinkling")[0].style.display = 'block'
+  
+}
+var scientific = false
+document.getElementById("notationbtn").onclick = function() {
+  scientific = !scientific
+  shipUpdateButton.innerHTML = shortenCosts(player.shipUpdateCost) + " € to update your ship";
+  rocketUpdateButton.innerHTML = shortenCosts(player.rocketUpdateCost) + " € to update your rockets";
+  wingUpdateButton.innerHTML = shortenCosts(player.wingUpdateCost) + " € to update your wings";
+  rocketButton.innerHTML = shortenCosts(player.rocketCost) + " € for " + Rockets[player.rockets] + " rocket.";
+  wingButton.innerHTML = shortenCosts(player.wingCost) + " € for " + Wings[player.wings] + " wings.";
+  shipButton.innerHTML = shortenCosts(player.shipCost) + " € for " + Ships[player.ships] + ".";
+  updateStatistics();
+
+
+
+
+}
 
 launchButton.onclick = function() {
   if (player.onAir) {
@@ -452,6 +474,11 @@ function init() {
     };
     document.getElementById('achievementbutton').onclick=function () {
       showTab('achievements');
+      document.getElementById("prestigeUpgrades").style.display = 'none'
+      document.getElementById("shipContainer").style.display = 'none'
+    };
+    document.getElementById('optionsbutton').onclick=function () {
+      showTab('options');
       document.getElementById("prestigeUpgrades").style.display = 'none'
       document.getElementById("shipContainer").style.display = 'none'
     };
