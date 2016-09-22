@@ -520,7 +520,7 @@ function achievement(name)
 
 //Intervals
 setInterval(function() {
-  moveShip()
+  
   var thisUpdate = new Date().getTime();
   var diff = thisUpdate - lastUpdate;
   diff = diff/100;
@@ -591,7 +591,7 @@ setInterval(function() {
 setInterval(function () { save_game(); }, 10000);
 
 setInterval(function () {
-  
+  moveShip()
    if (player.distance > player.bestDistance) {
     player.bestDistance = player.distance
     document.getElementById("bestDistance").innerHTML = 'Furthest travelled: ' + shorten(player.bestDistance)
