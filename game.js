@@ -344,7 +344,7 @@ function getPrestige() {
 }
 
 document.getElementById("resetButton").onclick = function() {
-  if (confirm("Do you want to make a colony to the exoplanet you found? You will get " + shortenCosts(getPrestige()) + " refugees that boost your funding by 2% each")) {
+  if (confirm("Do you want to make a colony to the exoplanet you found? You will get " + shortenCosts(getPrestige()-player.prestigeAmount) + " refugees that boost your funding by 2% each")) {
   player = {
       distance: 0,
       baseSpeed: 0,
@@ -580,9 +580,7 @@ setInterval(function() {
   if (player.distance >= player.nextPlanet) document.getElementById("resetButton").style.visibility = 'visible'
   else document.getElementById("resetButton").style.visibility = 'hidden'
   
-  document.getElementById("totalMoney").innerHTML = "You have made a total of " + shorten(player.totalMoney) + " €"
-  document.getElementById("totalDistance").innerHTML = "You have travelled a total of " + distanceIndicators(player.totalDistance)
-  document.getElementById("nextPlanet").innerHTML = "Distance to the next exoplanet: " + distanceIndicators(Math.max((player.nextPlanet - player.distance), 0))
+
 
   
   lastUpdate = thisUpdate;
@@ -594,9 +592,11 @@ setInterval(function () {
   moveShip()
    if (player.distance > player.bestDistance) {
     player.bestDistance = player.distance
-    document.getElementById("bestDistance").innerHTML = 'Furthest travelled: ' + shorten(player.bestDistance)
+    document.getElementById("bestDistance").innerHTML = 'Furthest travelled: ' + distanceIndicators(player.bestDistance)
   }
-  
+    document.getElementById("totalMoney").innerHTML = "You have made a total of " + shorten(player.totalMoney) + " €"
+  document.getElementById("totalDistance").innerHTML = "You have travelled a total of " + distanceIndicators(player.totalDistance)
+  document.getElementById("nextPlanet").innerHTML = "Distance to the next exoplanet: " + distanceIndicators(Math.max((player.nextPlanet - player.distance), 0))
   
 if (player.distance > 10 && !player.firstAchievement) { 
     achievement("I can still see you");
