@@ -302,6 +302,8 @@ launchButton.onclick = function() {
   	launchButton.innerHTML = "LAUNCH"
   	player.distance = 0
   }
+  speed = player.baseSpeed * player.speedMultipliers;
+  speedLabel.innerHTML = speedIndicators(speed);
 }
 
 
@@ -698,7 +700,8 @@ window.onclick = function(event) {
         modal.style.display = "none";
     }
 }
-
+speed = player.baseSpeed * player.speedMultipliers;
+  speedLabel.innerHTML = speedIndicators(speed);
   speedLabel.innerHTML = speedIndicators(speed);
   speed = player.baseSpeed * player.speedMultipliers;
   shipUpdateButton.setAttribute('data-tooltip', "Adds " + Math.round(0.1*(player.ships*player.shipUpdates+1)*10)/10 + " to your base speed. Currently at " + Math.round(player.baseSpeed*10)/10)
