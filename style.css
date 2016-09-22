@@ -129,6 +129,17 @@ button:focus, input[type="button"]:focus {
   border-radius: 0px
 }
 
+a {
+  color:#39c;
+  text-decoration:none;
+  text-align: center;
+}
+
+a:hover {
+  color:#069;
+}
+
+
 
 .container {
   position:absolute;
