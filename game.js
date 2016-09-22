@@ -582,7 +582,7 @@ setInterval(function() {
   
   document.getElementById("totalMoney").innerHTML = "You have made a total of " + shorten(player.totalMoney) + " €"
   document.getElementById("totalDistance").innerHTML = "You have travelled a total of " + distanceIndicators(player.totalDistance)
-  document.getElementById("nextPlanet").innerHTML = "Distance to the next exoplanet: " + shortenCosts(Math.max((player.nextPlanet - player.distance), 0))
+  document.getElementById("nextPlanet").innerHTML = "Distance to the next exoplanet: " + distanceIndicators(Math.max((player.nextPlanet - player.distance), 0))
 
   
   lastUpdate = thisUpdate;
