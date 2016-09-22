@@ -135,7 +135,7 @@ shortenCosts = function(x) {
 rocketButton.onclick = function() {
   if (player.rockets === 0 && player.money >= player.rocketCost && !player.onAir) {
     player.money -= player.rocketCost;
-    player.rocketCost *= 10000;
+    player.rocketCost *= 7776;
     player.speedMultipliers *= 2;
     player.rockets++;
     rocketButton.innerHTML = shortenCosts(player.rocketCost) + " € for " + Rockets[player.rockets] + " rocket.";
@@ -143,7 +143,7 @@ rocketButton.onclick = function() {
   }
   if (player.money >= player.rocketCost && player.rocketUpdates == 5 && !player.onAir) {
     player.money -= player.rocketCost;
-    player.rocketCost *= 10000;
+    player.rocketCost *= 7776;
     player.rockets++;
     rocketButton.innerHTML = shortenCosts(player.rocketCost) + " € for " + Rockets[player.rockets] + " rocket.";
     player.rocketUpdates = 0;
@@ -177,7 +177,7 @@ shipButton.onclick = function() {
 wingButton.onclick = function() {
   if (player.wings === 0 && player.money >= player.wingCost && !player.onAir) {
     player.money -= player.wingCost;
-    player.wingCost *= 125;
+    player.wingCost *= 100;
     player.speedMultipliers *= 1.5;
     player.wings++;
     wingButton.innerHTML = shortenCosts(player.wingCost) + " € for " + Wings[player.wings] + " wings.";
@@ -185,7 +185,7 @@ wingButton.onclick = function() {
   }
   if (player.money >= player.wingCost && player.wingUpdates == 5 && !player.onAir) {
     player.money -= player.wingCost;
-    player.wingCost *= 125;
+    player.wingCost *= 100;
     player.wings++;
     wingButton.innerHTML = shortenCosts(player.wingCost) + " € for " + Wings[player.wings] + " wings.";
     player.wingUpdates = 0;
