@@ -182,24 +182,24 @@ a:hover {
 .tabbutton {
   background: #86D9C4;
   border: 2px solid #23633E;
-  width: 197px;
+  width: 146px;
   height: 70px;
   cursor: pointer;
   border-radius: 6px;
   transition-duration: 0.35s;
-  font-size: 30px;
+  font-size: 22px;
   
 }
 
 .tabbutton:hover {
   background: #5D9998;
   border: 2px solid #23633E;
-  width: 197px;
+  width: 146px;
   height: 70px;
   cursor: pointer;
   border-radius: 6px;
   transition-duration: 0.35s;
-  font-size: 30px;
+  font-size: 22px;
   
 }
 
