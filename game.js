@@ -757,7 +757,7 @@ document.getElementById("slaveryCost").innerHTML = 'Cost: ' + shortenCosts(playe
 document.getElementById("capitalismCost").innerHTML = 'Cost: ' + shortenCosts(player.capitalismCost) + ' refugees.'
 if (player.prestigeAmount !== 0) document.getElementById("prestigeUpgrades").style.display = 'block'
 else document.getElementById("prestigeUpgrades").style.display = 'none'
-
+document.getElementsByClassName("twinkling")[0].style.display = 'none'
 //first time message
 if(player.msgShown === false || player.msgShown === undefined) {
     modal.style.display = "block";
