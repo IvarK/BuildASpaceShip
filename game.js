@@ -310,6 +310,7 @@ document.getElementById("hardReset").onclick = function() {
     updateStatistics();
     document.getElementById("prestigeUpgrades").style.display = 'none'
       speed = player.baseSpeed * player.speedMultipliers;
+	  document.getElementById("prestige").innerHTML = "You have " + shortenCosts(player.prestigeAmount) + " refugees on your exoplanet."
   }
 };
 
@@ -451,6 +452,7 @@ document.getElementById("resetButton").onclick = function() {
 document.getElementById("capitalismCost").innerHTML = 'Cost: ' + shortenCosts(player.capitalismCost) + ' refugees.'
   speed = player.baseSpeed * player.speedMultipliers;
       speedLabel.innerHTML = speedIndicators(speed);
+	  document.getElementById("prestige").innerHTML = "You have " + shortenCosts(player.prestigeAmount) + " refugees on your exoplanet."
   }
   if (player.onAir) launchButton.innerHTML = "Return to Earth."
   else {
