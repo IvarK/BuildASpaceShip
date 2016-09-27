@@ -53,6 +53,7 @@
           </p>
       <p>
       <div id="money" style="font-family:Tahoma;font-size:40px;text-align:center">0 €</div>
+      <button id="buyMax" class="button" style="width:150px">Max everything</button>
       <div style="text-align:center">
         <button class="button" id="rockets" >10 € for Bottle rocket.</button>
         <button data-tooltip="Multiplies your speed by 1.5" class="button" id="rocketUpdate">20 € to update your rockets</button>
@@ -78,11 +79,12 @@
     </div>
   </div>
    <div id="shipContainer" class="container">
-    <img src="http://1.bp.blogspot.com/-Smbf4dRBVpk/UWsHBkFFOII/AAAAAAAAAgI/yHbcMC3llMM/s1600/planet.png" style="width:120px">
+    <img src="http://img02.deviantart.net/a326/i/2015/226/b/0/habitable_exoplanet_by_emperorkk-d95mlty.png" style="width:120px">
     <img id="shipDisplay" src="http://www.freeiconspng.com/uploads/spaceship-png-icon-8.png" class="ship">
   </div>
   <div id="prestigeUpgrades">
     <table>
+      <div id="prestige"></div> 
     <tr>
       <td><button id="speedMultiplier" class="button" prstg-tooltip="Multiplies your speed by 3.">Human slavery</button>
       <td ><span id="slaveryCost">Cost: 10 refugees</span>
@@ -107,6 +109,7 @@
     <div class="achievement" id="sixthAchievement" ach-tooltip="Travel 1 astronomical unit.">Don't go too close to the sun.</div>
     <div class="achievement" id="seventhAchievement" ach-tooltip="Travel a light-year. Duh.">Wow! You have travelled a light-year!</div>
     <div class="achievement" id="eightAchievement" ach-tooltip="Travel a light-millenium.">Millenium? That's like a thousand years!</div>
+    <div class="achievement" id="ninthAchievement" ach-tooltip="Travel to the edge of the observable universe.">So this is The Edge?</div>
     
   </div>
   </div>
@@ -121,7 +124,6 @@
     <div id="bestDistance"></div>
     <div id="achievementAmount"></div>
     <div id="nextPlanet"></div>
-    <div id="prestige"></div> 
     <br>
     <div id="fundStats"></div>
     <div style="text-align:center"><button id="hardReset"class="button">HARD RESET</button></div>
