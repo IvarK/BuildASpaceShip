@@ -730,9 +730,28 @@ setInterval(function() {
     document.getElementById("totalMoney").innerHTML = "You have made a total of " + shorten(player.totalMoney) + " €"
   document.getElementById("totalDistance").innerHTML = "You have travelled a total of " + distanceIndicators(player.totalDistance)
   document.getElementById("nextPlanet").innerHTML = "Distance to the next exoplanet: " + distanceIndicators(Math.max((player.nextPlanet - player.distance), 0))
-  document.getElementById("refugeesOnPrestige").innerHTML = "You get " + shortenCosts(getPrestige()-player.prestigeAmount) + " refugees on reset"
+  document.getElementById("refugeesOnPrestige").innerHTML = "You get " + shortenCosts(getPrestige()-player.prestigeAmount) + " refugees on reset."
 
-
+  var seconds = Math.max(Math.round((player.nextPlanet - player.distance)/speed),0)
+ if (seconds > 86400) {
+    document.getElementById("arrival").innerHTML = 'Arrival in: ' + Math.round(seconds/86400) + ' Days'
+  }
+else if(seconds > 3600) {
+  if (Math.round((seconds%3600-(seconds%3600)%60)/60)<10) {
+    if (seconds%60 < 10) document.getElementById("arrival").innerHTML = 'Arrival in: ' + (seconds-seconds%3600)/3600 + ':0' + Math.round((seconds%3600-(seconds%3600)%60)/60) + ":0" + seconds%60
+  else document.getElementById("arrival").innerHTML = 'Arrival in: ' + (seconds-seconds%3600)/3600 + ':0' + Math.round((seconds%3600-(seconds%3600)%60)/60) + ":" + seconds%60
+  }
+  else {
+  if (seconds%60 < 10) document.getElementById("arrival").innerHTML = 'Arrival in: ' + (seconds-seconds%3600)/3600 + ':' + Math.round((seconds%3600-(seconds%3600)%60)/60) + ":0" + seconds%60
+  else document.getElementById("arrival").innerHTML = 'Arrival in: ' + (seconds-seconds%3600)/3600 + ':' + Math.round((seconds%3600-(seconds%3600)%60)/60) + ":" + seconds%60
+    }
+   }
+ 
+  else {
+    if (seconds%60 < 10) document.getElementById("arrival").innerHTML = 'Arrival in: ' + (seconds-seconds%60)/60 + ":0" + seconds%60
+    else document.getElementById("arrival").innerHTML = 'Arrival in: ' + (seconds-seconds%60)/60 + ":" + seconds%60
+      }
+  
   
   lastUpdate = thisUpdate;
 }, 100);
@@ -788,8 +807,7 @@ if (player.distance > 10 && !player.firstAchievement) {
     player.ninthAchievement = true;
   }
 
-
-
+  
 }, 1000);
 
 
