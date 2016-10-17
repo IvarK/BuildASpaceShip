@@ -393,7 +393,7 @@ document.getElementById("buyMax").onclick = function() {
 
 //returns how much prestige you get from total money
 function getPrestige() {
-  return Math.round(Math.pow((player.totalMoney/1e11), 2/7)*100)
+  return Math.round(Math.pow((player.totalMoney/1e11), 1/3)*100)
 }
 
 document.getElementById("resetButton").onclick = function() {
