@@ -52,12 +52,12 @@
 }
 
 .stars {
-  background:#01132a url(http://img4.hostingpics.net/pics/144421stars.png) repeat top center;
+  background:#01132a url(https://web.archive.org/web/20161028185619if_/http://img4.hostingpics.net/pics/144421stars.png) repeat top center;
   z-index:-2;
 }
 
 .twinkling{
-  background:transparent url(http://img4.hostingpics.net/pics/352884twinkling.png) repeat top center;
+  background:transparent url(https://web.archive.org/web/20161028185619if_/http://img4.hostingpics.net/pics/352884twinkling.png) repeat top center;
   z-index:-1;
 
   -moz-animation:move-twink-back 150s linear infinite;
